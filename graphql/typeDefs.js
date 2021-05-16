@@ -43,7 +43,7 @@ module.exports = gql`
   }
   type Query {
     getUsers(search: String!): [User]
-    getUser(userId: ID!): User
+    getUser(username: String!): User
     getPosts: [Post]
     getPost(postId: ID!): Post
   }
