@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 
 import { AuthContext } from "../context/auth";
 
 export default function MenuExampleSecondaryPointing() {
   const { user, logout } = useContext(AuthContext);
+  const history = useHistory();
   const pathname = window.location.pathname;
   const path = pathname === "/" ? "home" : pathname.substr(1);
   const [active, setActive] = useState(path);
@@ -16,7 +17,13 @@ export default function MenuExampleSecondaryPointing() {
     <Menu pointing secondary size="massive">
       <Menu.Item name={user.username} active as={Link} to="/" />
       <Menu.Menu position="right">
-        <Menu.Item name="logout" onClick={() => logout()} />
+        <Menu.Item
+          name="logout"
+          onClick={() => {
+            history.push("/");
+            logout();
+          }}
+        />
       </Menu.Menu>
     </Menu>
   ) : (
