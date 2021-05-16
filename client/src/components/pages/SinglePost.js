@@ -16,6 +16,7 @@ function SinglePost(props) {
       postId,
     },
   });
+
   const deleteCallback = () => props.history.push("/");
   let postMarkup;
   if (loading) {
