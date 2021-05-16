@@ -23,9 +23,9 @@ const generateToken = (user) =>
 
 module.exports = {
   Query: {
-    async getUser(_, { userId }) {
+    async getUser(_, { username }) {
       try {
-        const user = await User.findById(userId);
+        const user = await User.findOne({ username });
         if (user) {
           return user;
         }
@@ -65,7 +65,10 @@ module.exports = {
       }
       await currentUser.save();
       await otherUser.save();
-      return otherUser;
+      return {
+        id: otherUser.id,
+        username: otherUsername,
+      };
     },
     async resetPassword(_, { username, oldPassword, newPassword }) {
       const { valid, errors } = validateLoginInput(username, oldPassword);

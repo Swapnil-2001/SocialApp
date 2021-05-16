@@ -42,7 +42,7 @@ module.exports = gql`
     confirmPassword: String!
   }
   type Query {
-    getUser(userId: ID!): User
+    getUser(username: String!): User
     getPosts: [Post]
     getPost(postId: ID!): Post
   }
@@ -54,7 +54,7 @@ module.exports = gql`
       oldPassword: String!
       newPassword: String!
     ): User!
-    followUser(otherUsername: String!): User!
+    followUser(otherUsername: String!): Follow!
     createPost(body: String!): Post!
     deletePost(postId: ID!): String!
     createComment(postId: ID!, body: String!): Post!
