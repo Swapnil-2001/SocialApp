@@ -6,6 +6,7 @@ import AuthRoute from "./util/AuthRoute";
 import { AuthProvider } from "./context/auth";
 import Search from "./components/Search";
 import Menubar from "./components/Menubar";
+import SingleUser from "./components/pages/SingleUser";
 import SinglePost from "./components/pages/SinglePost";
 import Home from "./components/pages/Home";
 import Register from "./components/pages/Register";
@@ -23,6 +24,7 @@ function App() {
           <AuthRoute exact path="/login" component={Login} />
           <Route exact path="/search" component={Search} />
           <Route exact path="/posts/:postId" component={SinglePost} />
+          <Route exact path="/user/:username" component={SingleUser} />
         </Container>
       </Router>
     </AuthProvider>

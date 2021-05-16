@@ -55,7 +55,7 @@ module.exports = gql`
       oldPassword: String!
       newPassword: String!
     ): User!
-    followUser(otherUsername: String!): User!
+    followUser(otherUsername: String!): Follow!
     createPost(body: String!): Post!
     deletePost(postId: ID!): String!
     createComment(postId: ID!, body: String!): Post!

@@ -14,7 +14,9 @@ const PostCard = ({
   return (
     <Card fluid>
       <Card.Content>
-        <Card.Header>{username}</Card.Header>
+        <Card.Header as={Link} to={`/user/${username}`}>
+          {username}
+        </Card.Header>
         <Card.Meta as={Link} to={`/posts/${id}`}>
           {moment(createdAt).fromNow()}
         </Card.Meta>
