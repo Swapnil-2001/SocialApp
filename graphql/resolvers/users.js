@@ -34,6 +34,15 @@ module.exports = {
         throw new Error(error);
       }
     },
+    async getUsers(_, { search }) {
+      try {
+        let regExp = new RegExp("^" + search);
+        const users = await User.find({ username: regExp });
+        return users;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     async followUser(_, { otherUsername }, context) {

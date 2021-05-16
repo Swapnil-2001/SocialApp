@@ -42,6 +42,7 @@ module.exports = gql`
     confirmPassword: String!
   }
   type Query {
+    getUsers(search: String!): [User]
     getUser(username: String!): User
     getPosts: [Post]
     getPost(postId: ID!): Post
