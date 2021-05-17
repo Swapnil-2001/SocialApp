@@ -4,6 +4,7 @@ module.exports = gql`
   type Post {
     id: ID!
     body: String!
+    image: String!
     username: String!
     createdAt: String!
     comments: [Comment]!
@@ -57,7 +58,7 @@ module.exports = gql`
       newPassword: String!
     ): User!
     followUser(otherUsername: String!): Follow!
-    createPost(body: String!): Post!
+    createPost(body: String!, image: String!): Post!
     deletePost(postId: ID!): String!
     createComment(postId: ID!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!

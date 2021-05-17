@@ -3,11 +3,11 @@ import { Form, Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
+import { getBase64 } from "../util/base64";
 import { FETCH_POSTS_QUERY } from "../util/graphql";
 
 function PostForm() {
-  const [values, setValues] = useState({ body: "" });
-  const handleChange = (e) => setValues({ body: e.target.value });
+  const [values, setValues] = useState({ body: "", image: "" });
   const [addPost, { error }] = useMutation(CREATE_POST, {
     update(proxy, result) {
       const data = proxy.readQuery({
@@ -19,25 +19,43 @@ function PostForm() {
           getPosts: [result.data.createPost, ...data.getPosts],
         },
       });
-      values.body = "";
     },
     onError(err) {
       return err;
     },
     variables: values,
   });
+  const handleFileUpload = async (e) => {
+    let file = e.target.files[0];
+    try {
+      let result = await getBase64(file);
+      setValues((prev) => ({ ...prev, image: result }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     addPost();
+    setValues({ body: "", image: "" });
   };
+  error && console.log(error);
   return (
     <>
       <Form onSubmit={handleSubmit}>
         <h2>Create a post!</h2>
         <Form.Field>
+          <input
+            type="file"
+            name="file"
+            accept=".jpg,.jpeg,.png"
+            onChange={handleFileUpload}
+          />
           <Form.Input
             placeholder="Write a post!"
-            onChange={handleChange}
+            onChange={(e) =>
+              setValues((prev) => ({ ...prev, body: e.target.value }))
+            }
             value={values.body}
             error={error ? true : false}
           />
@@ -49,7 +67,7 @@ function PostForm() {
       {error && (
         <div className="ui error message">
           <ul className="list">
-            <li>{error.graphQLErrors[0].message}</li>
+            <li>{error.graphQLErrors[0]}</li>
           </ul>
         </div>
       )}
@@ -58,8 +76,8 @@ function PostForm() {
 }
 
 const CREATE_POST = gql`
-  mutation createPost($body: String!) {
-    createPost(body: $body) {
+  mutation createPost($body: String!, $image: String!) {
+    createPost(body: $body, image: $image) {
       id
       body
       username

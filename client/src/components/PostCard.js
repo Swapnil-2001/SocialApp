@@ -8,7 +8,16 @@ import DeleteButton from "./DeleteButton";
 import { AuthContext } from "../context/auth";
 
 const PostCard = ({
-  post: { id, body, createdAt, username, likes, likeCount, commentCount },
+  post: {
+    id,
+    body,
+    image,
+    createdAt,
+    username,
+    likes,
+    likeCount,
+    commentCount,
+  },
 }) => {
   const { user } = useContext(AuthContext);
   return (
@@ -17,6 +26,7 @@ const PostCard = ({
         <Card.Header as={Link} to={`/user/${username}`}>
           {username}
         </Card.Header>
+        {image.length > 0 && <img src={image} alt="postImg" />}
         <Card.Meta as={Link} to={`/posts/${id}`}>
           {moment(createdAt).fromNow()}
         </Card.Meta>

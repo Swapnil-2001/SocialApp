@@ -29,7 +29,10 @@ function Login(props) {
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
-    variables: values,
+    variables: {
+      ...values,
+      username: values.username.toLowerCase(),
+    },
   });
 
   const handleSubmit = (e) => {
@@ -45,12 +48,12 @@ function Login(props) {
         className={loading ? "loading" : ""}
       >
         <h1>Login</h1>
-        <Form.Input
+        <input
           label="Username"
           placeholder="Username"
           name="username"
+          style={{ textTransform: "lowercase" }}
           type="text"
-          error={errors.username ? true : false}
           value={values.username}
           onChange={handleChange}
         />
