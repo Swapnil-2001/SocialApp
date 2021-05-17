@@ -28,6 +28,7 @@ export const FETCH_USER_QUERY = gql`
     getUser(username: $username) {
       email
       createdAt
+      image
       followers {
         username
       }

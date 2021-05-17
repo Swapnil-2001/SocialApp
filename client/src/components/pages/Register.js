@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
+import { getBase64 } from "../../util/base64";
 
 import { AuthContext } from "../../context/auth";
 
@@ -9,6 +10,7 @@ function Register(props) {
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
   const [values, setvalues] = useState({
+    image: "",
     username: "",
     password: "",
     confirmPassword: "",
@@ -42,6 +44,16 @@ function Register(props) {
     addUser();
   };
 
+  const handleFileUpload = async (e) => {
+    let file = e.target.files[0];
+    try {
+      let result = await getBase64(file);
+      setvalues((prev) => ({ ...prev, image: result }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Form
@@ -58,6 +70,12 @@ function Register(props) {
           type="text"
           value={values.username}
           onChange={handleChange}
+        />
+        <input
+          type="file"
+          name="file"
+          accept=".jpg,.jpeg,.png"
+          onChange={handleFileUpload}
         />
         <Form.Input
           label="Email"
@@ -105,6 +123,7 @@ function Register(props) {
 
 const REGISTER_USER = gql`
   mutation register(
+    $image: String!
     $username: String!
     $email: String!
     $password: String!
@@ -112,12 +131,14 @@ const REGISTER_USER = gql`
   ) {
     register(
       registerInput: {
+        image: $image
         username: $username
         email: $email
         password: $password
         confirmPassword: $confirmPassword
       }
     ) {
+      image
       id
       email
       username

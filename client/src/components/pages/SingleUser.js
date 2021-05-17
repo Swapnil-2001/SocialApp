@@ -7,6 +7,7 @@ import FollowButton from "../FollowButton";
 import { Link } from "react-router-dom";
 import { FETCH_USER_QUERY } from "../../util/graphql";
 import gql from "graphql-tag";
+import "../styles/SingleUser.css";
 
 function SingleUser(props) {
   const username = props.match.params.username;
@@ -29,14 +30,27 @@ function SingleUser(props) {
   if (loading) {
     userMarkup = <div>Loading User...</div>;
   } else if (getUser) {
-    const { email, createdAt, followers, following } = getUser;
+    const { image, email, createdAt, followers, following } = getUser;
     userMarkup = (
       <Grid>
         <Grid.Row>
           <Card fluid>
-            <Card.Content>
-              <Card.Header>{username}</Card.Header>
-              <Card.Meta>Joined {moment(createdAt).fromNow()}</Card.Meta>
+            <div className="wrapper">
+              <div className="user">
+                <div className="image__div">
+                  <img src={image} alt="user" />
+                  <div>Joined {moment(createdAt).fromNow()}</div>
+                </div>
+                <div className="user__info__div">
+                  <h2>{username}</h2>
+                  <div>
+                    {posts && <span>{posts.length} Post</span>}
+                    <span>{followers.length} Followers</span>
+                    <span>{following.length} Following</span>
+                  </div>
+                  <Button>Edit</Button>
+                </div>
+              </div>
               <Card.Description></Card.Description>
               {user && user.username !== username ? (
                 followers.find(
@@ -63,7 +77,7 @@ function SingleUser(props) {
               ) : (
                 <div />
               )}
-            </Card.Content>
+            </div>
           </Card>
           <hr />
           <div>

@@ -30,6 +30,7 @@ module.exports = gql`
   type User {
     id: ID!
     token: String!
+    image: String!
     username: String!
     email: String!
     createdAt: String!
@@ -37,6 +38,7 @@ module.exports = gql`
     following: [Follow]!
   }
   input RegisterInput {
+    image: String!
     username: String!
     email: String!
     password: String!
