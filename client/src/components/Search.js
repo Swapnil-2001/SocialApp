@@ -29,7 +29,7 @@ function Search() {
             <ul>
               {getUsers.map((user) => (
                 <li key={user.id}>
-                  <Link to="">{user.username}</Link>
+                  <Link to={`/user/${user.username}`}>{user.username}</Link>
                 </li>
               ))}
             </ul>

@@ -13,6 +13,14 @@ module.exports = {
         throw new Error(error);
       }
     },
+    async getPostsByUser(_, { username }) {
+      try {
+        const posts = await Post.find({ username });
+        return posts;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
     async getPost(_, { postId }) {
       try {
         const post = await Post.findById(postId);

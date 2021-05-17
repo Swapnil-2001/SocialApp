@@ -45,6 +45,7 @@ module.exports = gql`
     getUsers(search: String!): [User]
     getUser(username: String!): User
     getPosts: [Post]
+    getPostsByUser(username: String!): [Post]
     getPost(postId: ID!): Post
   }
   type Mutation {

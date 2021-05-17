@@ -4,7 +4,9 @@ import { useQuery } from "@apollo/client";
 import moment from "moment";
 import { Label, Button, Card, Grid } from "semantic-ui-react";
 import FollowButton from "../FollowButton";
+import { Link } from "react-router-dom";
 import { FETCH_USER_QUERY } from "../../util/graphql";
+import gql from "graphql-tag";
 
 function SingleUser(props) {
   const username = props.match.params.username;
@@ -14,6 +16,15 @@ function SingleUser(props) {
       username,
     },
   });
+  const { loadPosts, data: { getPostsByUser: posts } = {} } = useQuery(
+    FETCH_USER_POSTS,
+    {
+      fetchPolicy: "no-cache",
+      variables: {
+        username,
+      },
+    }
+  );
   let userMarkup;
   if (loading) {
     userMarkup = <div>Loading User...</div>;
@@ -73,6 +84,21 @@ function SingleUser(props) {
             </Button>
           </Card.Content>
         </Grid.Row>
+        <Grid.Row>
+          {!loadPosts &&
+            posts &&
+            posts.map(({ body, id }) => (
+              <Grid.Column key={id}>
+                <Card fluid as={Link} to={`/posts/${id}`}>
+                  <Card.Content>
+                    <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
+                    <Card.Description>{body}</Card.Description>
+                  </Card.Content>
+                  <Card.Content extra></Card.Content>
+                </Card>
+              </Grid.Column>
+            ))}
+        </Grid.Row>
       </Grid>
     );
   } else {
@@ -80,5 +106,28 @@ function SingleUser(props) {
   }
   return userMarkup;
 }
+
+const FETCH_USER_POSTS = gql`
+  query getPostsByUser($username: String!) {
+    getPostsByUser(username: $username) {
+      id
+      body
+      createdAt
+      username
+      likeCount
+      likes {
+        id
+        username
+      }
+      commentCount
+      comments {
+        id
+        username
+        createdAt
+        body
+      }
+    }
+  }
+`;
 
 export default SingleUser;
