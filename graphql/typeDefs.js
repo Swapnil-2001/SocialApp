@@ -44,6 +44,12 @@ module.exports = gql`
     password: String!
     confirmPassword: String!
   }
+  input UserInput {
+    id: ID!
+    username: String!
+    image: String!
+    email: String!
+  }
   type Query {
     getUsers(search: String!): [User]
     getUser(username: String!): User
@@ -59,6 +65,7 @@ module.exports = gql`
       oldPassword: String!
       newPassword: String!
     ): User!
+    updateUser(userInput: UserInput): User!
     followUser(otherUsername: String!): Follow!
     createPost(body: String!, image: String!): Post!
     deletePost(postId: ID!): String!

@@ -44,11 +44,13 @@ function SingleUser(props) {
                 <div className="user__info__div">
                   <h2>{username}</h2>
                   <div>
-                    {posts && <span>{posts.length} Post</span>}
+                    {posts && <span>{posts.length} Posts</span>}
                     <span>{followers.length} Followers</span>
                     <span>{following.length} Following</span>
                   </div>
-                  <Button>Edit</Button>
+                  {user && user.username === username && (
+                    <Link to={`/update/${username}`}>Edit Profile</Link>
+                  )}
                 </div>
               </div>
               <Card.Description></Card.Description>

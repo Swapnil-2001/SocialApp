@@ -8,6 +8,7 @@ const {
 const checkAuth = require("../../util/check-auth");
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 const { UserInputError } = require("apollo-server");
 
 const generateToken = (user) =>
@@ -45,6 +46,38 @@ module.exports = {
     },
   },
   Mutation: {
+    async updateUser(_, { userInput: { id, username, image, email } }) {
+      const { username: oldUsername, password } = await User.findById(id);
+      const { valid, errors } = validateRegisterInput(
+        username,
+        email,
+        password,
+        password
+      );
+      if (!valid) {
+        throw new UserInputError("Errors", { errors });
+      }
+      if (oldUsername !== username) {
+        const user = await User.findOne({ username });
+        if (user) {
+          throw new UserInputError("Username is taken.", {
+            errors: {
+              username: "This username is taken.",
+            },
+          });
+        }
+      }
+      await Post.updateMany({ username: oldUsername }, { username });
+      const updatedUser = await User.findOneAndUpdate(
+        { username: oldUsername },
+        { username, email, image },
+        { new: true, useFindAndModify: false }
+      );
+      return {
+        ...updatedUser._doc,
+        id: updatedUser._id,
+      };
+    },
     async followUser(_, { otherUsername }, context) {
       const { username } = checkAuth(context);
       const currentUser = await User.findOne({ username });
