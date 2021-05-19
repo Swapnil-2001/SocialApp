@@ -52,7 +52,7 @@ function SingleUser(props) {
                 </div>
               )}
               {followers.length > 0 && (
-                <>
+                <div>
                   <span>Followed by</span>
                   <span>
                     <Link to={`/user/${followers[0].username}`}>
@@ -62,12 +62,13 @@ function SingleUser(props) {
                   {followers.length > 1 && (
                     <span>and {followers.length - 1} others</span>
                   )}
-                </>
+                </div>
               )}
             </div>
           </div>
-          {user && user.username !== username ? (
-            followers.find(
+          {user &&
+            user.username !== username &&
+            (followers.find(
               (follower) => follower.username === user.username
             ) ? (
               <FollowButton
@@ -87,10 +88,7 @@ function SingleUser(props) {
                 otherUsername={username}
                 text="Follow"
               />
-            )
-          ) : (
-            <div />
-          )}
+            ))}
         </div>
         <div>
           {following.length > 0 &&
@@ -98,13 +96,16 @@ function SingleUser(props) {
               <div key={follow.id}>{follow.username}</div>
             ))}
         </div>
-        {/* <div>{email}</div> */}
         <div style={{ textAlign: "center", padding: "30px 0" }}>
           {!loadPosts &&
             (posts ? (
-              <h2>Posts by {username}</h2>
+              posts.length > 0 ? (
+                <h2>Posts by {username}</h2>
+              ) : (
+                <h2>No posts by {username}</h2>
+              )
             ) : (
-              <h4>No Posts by {username}</h4>
+              <h4>Cannot load posts.</h4>
             ))}
         </div>
         <div className="user__page__posts">

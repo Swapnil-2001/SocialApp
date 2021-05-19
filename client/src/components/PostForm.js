@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
+import "./styles/PostForm.css";
 
 import { getBase64 } from "../util/base64";
 import { FETCH_POSTS_QUERY } from "../util/graphql";
@@ -45,12 +46,6 @@ function PostForm() {
       <Form onSubmit={handleSubmit}>
         <h2>Create a post!</h2>
         <Form.Field>
-          <input
-            type="file"
-            name="file"
-            accept=".jpg,.jpeg,.png"
-            onChange={handleFileUpload}
-          />
           <Form.Input
             placeholder="Write a post!"
             onChange={(e) =>
@@ -58,6 +53,13 @@ function PostForm() {
             }
             value={values.body}
             error={error ? true : false}
+          />
+          <input
+            type="file"
+            name="file"
+            accept=".jpg,.jpeg,.png"
+            className="custom-file-input"
+            onChange={handleFileUpload}
           />
           <Button type="submit" color="teal">
             Create

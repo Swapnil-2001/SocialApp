@@ -3,6 +3,8 @@ import { Button, Icon, Label } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
+import { ReactComponent as Like } from "./heart.svg";
+import "./styles/Like.css";
 
 function LikeButton({ user, post: { id, likeCount, likes } }) {
   const [liked, setLiked] = useState(false);
@@ -22,26 +24,26 @@ function LikeButton({ user, post: { id, likeCount, likes } }) {
   const handleLike = () => likePost();
   const likebutton = user ? (
     liked ? (
-      <Button color="teal" onClick={handleLike}>
-        <Icon name="heart" />
-      </Button>
+      <div style={{ width: "25px" }} onClick={handleLike}>
+        <Like fill="red" />
+      </div>
     ) : (
-      <Button color="teal" onClick={handleLike} basic>
-        <Icon name="heart" />
-      </Button>
+      <div style={{ width: "25px" }} onClick={handleLike}>
+        <Like />
+      </div>
     )
   ) : (
-    <Button as={Link} to="/login" color="teal" basic>
-      <Icon name="heart" />
-    </Button>
+    <div style={{ width: "25px" }}>
+      <Link to="/login">
+        <Like />
+      </Link>
+    </div>
   );
   return (
-    <Button as="div" labelPosition="right">
+    <div className="like__div">
       {likebutton}
-      <Label basic color="teal" pointing="left">
-        {likeCount}
-      </Label>
-    </Button>
+      {likeCount}
+    </div>
   );
 }
 

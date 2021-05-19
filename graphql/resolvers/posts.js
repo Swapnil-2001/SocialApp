@@ -36,8 +36,8 @@ module.exports = {
   Mutation: {
     async createPost(_, { body, image }, context) {
       const user = checkAuth(context);
-      if (body.trim() === "") {
-        throw new Error("Post body cannot be empty.");
+      if (body.trim() === "" && image === "") {
+        throw new Error("Post body and image cannot both be missing.");
       }
       const newPost = new Post({
         body,

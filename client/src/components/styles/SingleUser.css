@@ -1,6 +1,7 @@
 .wrapper {
   padding: 30px;
   border: 1px solid #325288;
+  background-color: #fdfaf6;
 }
 
 .user {
@@ -13,15 +14,20 @@
 }
 
 .user__info__div {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex: 3;
 }
 
 .user__info__div h2 {
+  color: #2978b5;
   margin-bottom: 20px;
 }
 
 .user__info__div > p {
+  color: #0061a8;
   margin-top: 20px;
 }
 
@@ -43,11 +49,13 @@ span {
 }
 
 .user__page__posts {
-  justify-content: center;
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .user__page__posts > div {
+  min-width: 400px;
   padding: 30px;
   padding-bottom: 15px;
   margin: 20px;

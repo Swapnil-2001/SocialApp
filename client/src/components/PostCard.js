@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { Card, Icon, Label, Button } from "semantic-ui-react";
+import { Icon, Label, Button } from "semantic-ui-react";
 
 import LikeButton from "./LikeButton";
 import DeleteButton from "./DeleteButton";
 import { AuthContext } from "../context/auth";
+import "./styles/PostCard.css";
 
 const PostCard = ({
   post: {
@@ -21,21 +22,19 @@ const PostCard = ({
 }) => {
   const { user } = useContext(AuthContext);
   return (
-    <Card fluid>
-      <Card.Content>
-        <Card.Header as={Link} to={`/user/${username}`}>
-          {username}
-        </Card.Header>
-        {image.length > 0 && <img src={image} alt="postImg" />}
-        <Card.Meta as={Link} to={`/posts/${id}`}>
-          {moment(createdAt).fromNow()}
-        </Card.Meta>
-        <Card.Description>{body}</Card.Description>
-      </Card.Content>
-      <Card.Content extra>
+    <div className="postcard__wrapper">
+      <h3>
+        <Link to={`/user/${username}`}>{username}</Link>
+      </h3>
+      {image.length > 0 && <img src={image} alt="postImg" />}
+      <p>
+        <Link to={`/posts/${id}`}>{moment(createdAt).fromNow()}</Link>
+      </p>
+      <p>{body}</p>
+      <div style={{ display: "flex" }}>
         <LikeButton user={user} post={{ id, likes, likeCount }} />
-        <Button labelPosition="right" as={Link} to={`/posts/${id}`}>
-          <Button color="teal" basic>
+        <Button size="tiny" labelPosition="right" as={Link} to={`/posts/${id}`}>
+          <Button size="tiny" color="teal" basic>
             <Icon name="comments" />
           </Button>
           <Label basic color="teal" pointing="left">
@@ -43,8 +42,8 @@ const PostCard = ({
           </Label>
         </Button>
         {user && user.username === username && <DeleteButton id={id} />}
-      </Card.Content>
-    </Card>
+      </div>
+    </div>
   );
 };
 
