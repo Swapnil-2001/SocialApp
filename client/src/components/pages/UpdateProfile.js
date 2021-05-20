@@ -1,10 +1,10 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/auth";
-import { useQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Form, Button } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 import { getBase64 } from "../../util/base64";
-import { FETCH_POSTS_QUERY, FETCH_USER_QUERY } from "../../util/graphql";
+import { FETCH_POSTS_QUERY } from "../../util/graphql";
 import gql from "graphql-tag";
 
 function UpdateProfile(props) {
@@ -15,15 +15,10 @@ function UpdateProfile(props) {
     history.push("/");
   }
   const [values, setValues] = useState({
-    username: "",
-    id: "",
-    image: "",
-    email: "",
-  });
-  const { data } = useQuery(FETCH_USER_QUERY, {
-    variables: {
-      username,
-    },
+    username,
+    id: user ? user.id : "",
+    image: user ? user.image : "",
+    email: user ? user.email : "",
   });
   const [updateUserFunction, { loading }] = useMutation(UPDATE_USER, {
     update() {
@@ -56,18 +51,7 @@ function UpdateProfile(props) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    if (data) {
-      const {
-        getUser: { username, id, image, email },
-      } = data;
-      setValues({ username, id, image, email });
-    }
-  }, [data]);
-  console.log(values);
-  return loading ? (
-    <div>Fetching your data...</div>
-  ) : data ? (
+  return (
     <Form
       onSubmit={handleSubmit}
       noValidate
@@ -100,8 +84,6 @@ function UpdateProfile(props) {
         Update
       </Button>
     </Form>
-  ) : (
-    <div>Cannot fetch data!</div>
   );
 }
 
