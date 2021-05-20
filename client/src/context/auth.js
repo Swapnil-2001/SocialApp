@@ -9,8 +9,9 @@ if (localStorage.getItem("jwtToken")) {
   const decodedToken = jwtDecode(localStorage.getItem("jwtToken"));
   if (decodedToken.exp * 1000 < Date.now()) {
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("user");
   } else {
-    initialState.user = decodedToken;
+    initialState.user = JSON.parse(localStorage.getItem("user"));
   }
 }
 
@@ -42,6 +43,7 @@ function AuthProvider(props) {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const login = (data) => {
     localStorage.setItem("jwtToken", data.token);
+    localStorage.setItem("user", JSON.stringify(data));
     dispatch({
       type: "LOGIN",
       payload: data,
@@ -49,6 +51,7 @@ function AuthProvider(props) {
   };
   const logout = () => {
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("user");
     dispatch({
       type: "LOGOUT",
     });
