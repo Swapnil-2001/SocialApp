@@ -44,10 +44,12 @@ function PostForm() {
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <h2>Create a post!</h2>
+        <h2 style={{ color: "#3d84b8", textAlign: "center" }}>
+          Create a post!
+        </h2>
         <Form.Field>
           <Form.Input
-            placeholder="Write a post!"
+            placeholder="Write a post"
             onChange={(e) =>
               setValues((prev) => ({ ...prev, body: e.target.value }))
             }
@@ -61,9 +63,11 @@ function PostForm() {
             className="custom-file-input"
             onChange={handleFileUpload}
           />
-          <Button type="submit" color="teal">
-            Create
-          </Button>
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <Button type="submit" color="teal">
+              Create
+            </Button>
+          </div>
         </Form.Field>
       </Form>
       {error && (

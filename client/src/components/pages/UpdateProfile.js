@@ -15,7 +15,6 @@ function UpdateProfile(props) {
     history.push("/");
   }
   const [values, setValues] = useState({
-    username,
     id: user ? user.id : "",
     image: user ? user.image : "",
     email: user ? user.email : "",
@@ -31,7 +30,6 @@ function UpdateProfile(props) {
     refetchQueries: [{ query: FETCH_POSTS_QUERY }],
     variables: {
       ...values,
-      username: values.username.toLowerCase(),
     },
   });
   const handleChange = (e) => {
@@ -57,15 +55,6 @@ function UpdateProfile(props) {
       noValidate
       className={loading ? "loading" : ""}
     >
-      <input
-        label="Username"
-        placeholder="Username"
-        name="username"
-        style={{ textTransform: "lowercase" }}
-        type="text"
-        value={values.username}
-        onChange={handleChange}
-      />
       <Form.Input
         label="Email"
         placeholder="Email"
@@ -88,15 +77,8 @@ function UpdateProfile(props) {
 }
 
 const UPDATE_USER = gql`
-  mutation updateUser(
-    $username: String!
-    $id: ID!
-    $email: String!
-    $image: String!
-  ) {
-    updateUser(
-      userInput: { username: $username, id: $id, email: $email, image: $image }
-    ) {
+  mutation updateUser($id: ID!, $email: String!, $image: String!) {
+    updateUser(userInput: { id: $id, email: $email, image: $image }) {
       username
       email
       image
