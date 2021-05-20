@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Button, Confirm, Icon } from "semantic-ui-react";
+import { Confirm } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
+import dustbin from "./dustbin.png";
 
 import { FETCH_POSTS_QUERY } from "../util/graphql";
 
@@ -27,14 +28,16 @@ function DeleteButton({ id, callback }) {
   });
   return (
     <>
-      <Button
-        as="div"
-        floated="right"
-        color="red"
+      <div
+        style={{ cursor: "pointer", marginLeft: "auto" }}
         onClick={() => setConfirmOpen(true)}
       >
-        <Icon name="trash" style={{ margin: "0" }} />
-      </Button>
+        <img
+          style={{ objectFit: "contain", width: "25px" }}
+          src={dustbin}
+          alt="delete"
+        />
+      </div>
       <Confirm
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}

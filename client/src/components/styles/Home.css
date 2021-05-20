@@ -1,0 +1,11 @@
+.each__post {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.each__post > div {
+  width: 600px;
+  margin: 30px 0;
+}

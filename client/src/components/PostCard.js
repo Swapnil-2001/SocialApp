@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { Icon, Label, Button } from "semantic-ui-react";
-
+import CommentButton from "./CommentButton";
 import LikeButton from "./LikeButton";
 import DeleteButton from "./DeleteButton";
 import { AuthContext } from "../context/auth";
@@ -27,20 +26,16 @@ const PostCard = ({
         <Link to={`/user/${username}`}>{username}</Link>
       </h3>
       {image.length > 0 && <img src={image} alt="postImg" />}
-      <p>
-        <Link to={`/posts/${id}`}>{moment(createdAt).fromNow()}</Link>
-      </p>
-      <p>{body}</p>
-      <div style={{ display: "flex" }}>
+      <h3>{body}</h3>
+      <div>
         <LikeButton user={user} post={{ id, likes, likeCount }} />
-        <Button size="tiny" labelPosition="right" as={Link} to={`/posts/${id}`}>
-          <Button size="tiny" color="teal" basic>
-            <Icon name="comments" />
-          </Button>
-          <Label basic color="teal" pointing="left">
-            {commentCount}
-          </Label>
-        </Button>
+        <CommentButton id={id} commentCount={commentCount} />
+        <p style={{ marginLeft: "auto" }}>
+          <Link to={`/posts/${id}`}>Go to post</Link>{" "}
+        </p>
+      </div>
+      <div>
+        <p>{moment(createdAt).fromNow()}</p>
         {user && user.username === username && <DeleteButton id={id} />}
       </div>
     </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button, Icon, Label } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
