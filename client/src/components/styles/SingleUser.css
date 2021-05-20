@@ -1,7 +1,8 @@
 .wrapper {
+  margin: 30px 150px;
   padding: 30px;
   border: 1px solid #325288;
-  background-color: #fdfaf6;
+  background-color: white;
 }
 
 .user {
@@ -11,6 +12,10 @@
 .image__div {
   text-align: center;
   flex: 1;
+}
+
+.image__div > div {
+  margin-bottom: 20px;
 }
 
 .user__info__div {
@@ -29,6 +34,10 @@
 .user__info__div > p {
   color: #0061a8;
   margin-top: 20px;
+}
+
+.user__info__div div {
+  margin-bottom: 20px;
 }
 
 span {
@@ -55,6 +64,7 @@ span {
 }
 
 .user__page__posts > div {
+  background-color: white;
   min-width: 400px;
   padding: 30px;
   padding-bottom: 15px;

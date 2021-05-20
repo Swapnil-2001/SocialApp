@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { FETCH_POSTS_QUERY } from "../../util/graphql";
 import { Link } from "react-router-dom";
 
+import Menubar from "../Menubar";
 import { AuthContext } from "../../context/auth";
 import PostForm from "../PostForm";
 import PostCard from "../PostCard";
@@ -15,7 +16,8 @@ function Home() {
     useQuery(FETCH_POSTS_QUERY);
   return (
     <>
-      <div style={{ textAlign: "center" }}>
+      <Menubar />
+      <div style={{ marginTop: "30px", textAlign: "center" }}>
         <Button color="grey" as={Link} to="/search">
           Search Users
         </Button>

@@ -7,6 +7,8 @@ import DeleteButton from "./DeleteButton";
 import { AuthContext } from "../context/auth";
 import "./styles/PostCard.css";
 
+const truncate = (s) => (s.length > 75 ? s.substring(0, 75) + "..." : s);
+
 const PostCard = ({
   post: {
     id,
@@ -22,11 +24,11 @@ const PostCard = ({
   const { user } = useContext(AuthContext);
   return (
     <div className="postcard__wrapper">
-      <h3>
+      <h4>
         <Link to={`/user/${username}`}>{username}</Link>
-      </h3>
+      </h4>
       {image.length > 0 && <img src={image} alt="postImg" />}
-      <h3>{body}</h3>
+      <h3>{truncate(body)}</h3>
       <div>
         <LikeButton user={user} post={{ id, likes, likeCount }} />
         <CommentButton id={id} commentCount={commentCount} />

@@ -46,7 +46,6 @@ module.exports = gql`
   }
   input UserInput {
     id: ID!
-    username: String!
     image: String!
     email: String!
   }

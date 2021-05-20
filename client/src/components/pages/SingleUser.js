@@ -2,11 +2,14 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../context/auth";
 import { useQuery } from "@apollo/client";
 import moment from "moment";
+
 import FollowButton from "../FollowButton";
 import { Link } from "react-router-dom";
 import { FETCH_USER_QUERY } from "../../util/graphql";
 import gql from "graphql-tag";
+import none from "../no.png";
 import "../styles/SingleUser.css";
+import Menubar from "../Menubar";
 
 function SingleUser(props) {
   const username = props.match.params.username;
@@ -32,11 +35,35 @@ function SingleUser(props) {
     const { image, email, createdAt, followers, following } = getUser;
     userMarkup = (
       <div>
+        <Menubar />
         <div className="wrapper">
           <div className="user">
             <div className="image__div">
-              <img src={image} alt="user" />
+              <img src={image ? image : none} alt="user" />
               <div>Joined {moment(createdAt).fromNow()}</div>
+              {user &&
+                user.username !== username &&
+                (followers.find(
+                  (follower) => follower.username === user.username
+                ) ? (
+                  <FollowButton
+                    currentUser={{
+                      currentUsername: user.username,
+                      currentUserId: user.id,
+                    }}
+                    otherUsername={username}
+                    text="Unfollow"
+                  />
+                ) : (
+                  <FollowButton
+                    currentUser={{
+                      currentUsername: user.username,
+                      currentUserId: user.id,
+                    }}
+                    otherUsername={username}
+                    text="Follow"
+                  />
+                ))}
             </div>
             <div className="user__info__div">
               <h2>{username}</h2>
@@ -46,11 +73,7 @@ function SingleUser(props) {
                 <span>{following.length} Following</span>
               </div>
               <p>{email}</p>
-              {user && user.username === username && (
-                <div>
-                  <Link to={`/update/${username}`}>Edit Profile</Link>
-                </div>
-              )}
+
               {followers.length > 0 && (
                 <div>
                   <span>Followed by</span>
@@ -64,31 +87,13 @@ function SingleUser(props) {
                   )}
                 </div>
               )}
+              {user && user.username === username && (
+                <div>
+                  <Link to={`/update/${username}`}>Edit Profile</Link>
+                </div>
+              )}
             </div>
           </div>
-          {user &&
-            user.username !== username &&
-            (followers.find(
-              (follower) => follower.username === user.username
-            ) ? (
-              <FollowButton
-                currentUser={{
-                  currentUsername: user.username,
-                  currentUserId: user.id,
-                }}
-                otherUsername={username}
-                text="Unfollow"
-              />
-            ) : (
-              <FollowButton
-                currentUser={{
-                  currentUsername: user.username,
-                  currentUserId: user.id,
-                }}
-                otherUsername={username}
-                text="Follow"
-              />
-            ))}
         </div>
         <div>
           {following.length > 0 &&
@@ -96,7 +101,7 @@ function SingleUser(props) {
               <div key={follow.id}>{follow.username}</div>
             ))}
         </div>
-        <div style={{ textAlign: "center", padding: "30px 0" }}>
+        <div style={{ textAlign: "center", padding: "35px 0 20px 0" }}>
           {!loadPosts &&
             (posts ? (
               posts.length > 0 ? (

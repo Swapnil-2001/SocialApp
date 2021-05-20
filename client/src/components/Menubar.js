@@ -1,56 +1,56 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { Menu } from "semantic-ui-react";
 
+import { ReactComponent as Home } from "./home.svg";
+import none from "./no.png";
+import "./styles/Menubar.css";
 import { AuthContext } from "../context/auth";
 
 export default function MenuExampleSecondaryPointing() {
   const { user, logout } = useContext(AuthContext);
   const history = useHistory();
   const pathname = window.location.pathname;
-  const path = pathname === "/" ? "home" : pathname.substr(1);
-  const [active, setActive] = useState(path);
-
-  const handleItemClick = (_, { name }) => setActive(name);
+  const active = pathname === "/" ? "home" : pathname.substr(1);
 
   return user ? (
-    <Menu pointing secondary size="massive">
-      <Menu.Item name={user.username} active as={Link} to="/" />
-      <Menu.Menu position="right">
-        <Menu.Item
-          name="logout"
+    <div className="menu">
+      <Link to="/">
+        <Home fill={active === "home" ? "#3d84b8" : ""} />
+      </Link>
+      <div>
+        <Link to={`/user/${user.username}`}>
+          <img src={user.image ? user.image : none} alt="user" />
+        </Link>
+        <div
+          style={{ cursor: "pointer" }}
           onClick={() => {
             history.push("/");
             logout();
           }}
-        />
-      </Menu.Menu>
-    </Menu>
+        >
+          Logout
+        </div>
+      </div>
+    </div>
   ) : (
-    <Menu pointing secondary size="massive">
-      <Menu.Item
-        name="home"
-        active={active === "home"}
-        onClick={handleItemClick}
-        as={Link}
-        to="/"
-      />
-      <Menu.Menu position="right">
-        <Menu.Item
-          name="login"
-          active={active === "login"}
-          onClick={handleItemClick}
-          as={Link}
+    <div className="menu">
+      <Link to="/">
+        <Home fill={active === "home" ? "#3d84b8" : ""} />
+      </Link>
+      <div>
+        <Link
+          style={{ color: active === "login" ? "#3d84b8" : "black" }}
           to="/login"
-        />
-        <Menu.Item
-          name="register"
-          active={active === "register"}
-          onClick={handleItemClick}
-          as={Link}
+        >
+          <p>Login</p>
+        </Link>
+        <Link
+          style={{ color: active === "register" ? "#3d84b8" : "black" }}
           to="/register"
-        />
-      </Menu.Menu>
-    </Menu>
+        >
+          <p>Register</p>
+        </Link>
+      </div>
+    </div>
   );
 }

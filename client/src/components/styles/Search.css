@@ -12,3 +12,20 @@
 .search__wrapper h3 {
   margin: 10px;
 }
+
+.ind__user {
+  width: 550px;
+  padding: 15px;
+  display: flex;
+  background: #eeeeee;
+}
+
+.ind__user img {
+  width: 65px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.ind__user p {
+  font-size: 1.3rem;
+}

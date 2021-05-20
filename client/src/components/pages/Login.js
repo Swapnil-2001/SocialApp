@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Container } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
+import Menubar from "../Menubar";
 import { AuthContext } from "../../context/auth";
 
 function Login(props) {
@@ -41,45 +42,53 @@ function Login(props) {
   };
 
   return (
-    <div>
-      <Form
-        onSubmit={handleSubmit}
-        noValidate
-        className={loading ? "loading" : ""}
-      >
-        <h1>Login</h1>
-        <input
-          label="Username"
-          placeholder="Username"
-          name="username"
-          style={{ textTransform: "lowercase" }}
-          type="text"
-          value={values.username}
-          onChange={handleChange}
-        />
-        <Form.Input
-          label="Password"
-          placeholder="Password"
-          name="password"
-          type="password"
-          error={errors.password ? true : false}
-          value={values.password}
-          onChange={handleChange}
-        />
-        <Button type="submit" primary>
-          Login
-        </Button>
-      </Form>
-      {Object.keys(errors).length > 0 && (
-        <div className="ui error message">
-          <ul className="list">
-            {Object.values(errors).map((error) => (
-              <li key={error}>{error}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+    <>
+      <Menubar />
+      <Container>
+        <Form
+          onSubmit={handleSubmit}
+          noValidate
+          className={loading ? "loading" : ""}
+        >
+          <h1
+            style={{ marginTop: "30px", color: "#3d84b8", textAlign: "center" }}
+          >
+            Login
+          </h1>
+          <h4>Username</h4>
+          <input
+            label="Username"
+            placeholder="Username"
+            name="username"
+            style={{ textTransform: "lowercase" }}
+            type="text"
+            value={values.username}
+            onChange={handleChange}
+          />
+          <h4>Password</h4>
+          <Form.Input
+            placeholder="Password"
+            name="password"
+            type="password"
+            error={errors.password ? true : false}
+            value={values.password}
+            onChange={handleChange}
+          />
+          <Button type="submit" primary>
+            Login
+          </Button>
+        </Form>
+        {Object.keys(errors).length > 0 && (
+          <div className="ui error message">
+            <ul className="list">
+              {Object.values(errors).map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </Container>
+    </>
   );
 }
 

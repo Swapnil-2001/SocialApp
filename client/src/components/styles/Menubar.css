@@ -1,0 +1,22 @@
+.menu {
+  background: #e4efe7;
+  padding: 20px 100px;
+  display: flex;
+  align-items: center;
+}
+
+.menu > div {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.menu p {
+  margin-left: 20px;
+}
+
+.menu img {
+  border-radius: 50%;
+  width: 35px;
+  margin-right: 20px;
+}
