@@ -4,7 +4,7 @@ import { useLazyQuery } from "@apollo/client";
 import { Input } from "semantic-ui-react";
 import gql from "graphql-tag";
 import Menubar from "./Menubar";
-import none from "./no.png";
+import none from "./images/no.png";
 
 import "./styles/Search.css";
 

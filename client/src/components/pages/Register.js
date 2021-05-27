@@ -21,10 +21,7 @@ function Register(props) {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    setvalues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setvalues({ ...values, [name]: value });
   };
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
@@ -50,7 +47,7 @@ function Register(props) {
     let file = e.target.files[0];
     try {
       let result = await getBase64(file);
-      setvalues((prev) => ({ ...prev, image: result }));
+      setvalues({ ...values, image: result });
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +71,11 @@ function Register(props) {
           <input
             placeholder="Username"
             name="username"
-            style={{ textTransform: "lowercase" }}
+            style={{
+              textTransform: "lowercase",
+              outline: errors.username ? "1px solid red" : "none",
+              background: errors.username ? "pink" : "none",
+            }}
             type="text"
             value={values.username}
             onChange={handleChange}

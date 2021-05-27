@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import { ReactComponent as Home } from "./home.svg";
-import none from "./no.png";
+import { ReactComponent as Home } from "./images/home.svg";
+import none from "./images/no.png";
 import "./styles/Menubar.css";
 import { AuthContext } from "../context/auth";
 

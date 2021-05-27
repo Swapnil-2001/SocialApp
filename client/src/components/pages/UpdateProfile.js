@@ -9,6 +9,7 @@ import gql from "graphql-tag";
 
 function UpdateProfile(props) {
   const username = props.match.params.username;
+  const [errors, setErrors] = useState({});
   const { user, logout } = useContext(AuthContext);
   const history = useHistory();
   if (!user || user.username !== username) {
@@ -25,7 +26,7 @@ function UpdateProfile(props) {
       props.history.push("/login");
     },
     onError(err) {
-      console.log(err);
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     refetchQueries: [{ query: FETCH_POSTS_QUERY }],
     variables: {
@@ -50,29 +51,41 @@ function UpdateProfile(props) {
     }
   };
   return (
-    <Form
-      onSubmit={handleSubmit}
-      noValidate
-      className={loading ? "loading" : ""}
-    >
-      <Form.Input
-        label="Email"
-        placeholder="Email"
-        name="email"
-        type="email"
-        value={values.email}
-        onChange={handleChange}
-      />
-      <input
-        type="file"
-        name="file"
-        accept=".jpg,.jpeg,.png"
-        onChange={handleFileUpload}
-      />
-      <Button type="submit" primary>
-        Update
-      </Button>
-    </Form>
+    <>
+      <Form
+        onSubmit={handleSubmit}
+        noValidate
+        className={loading ? "loading" : ""}
+      >
+        <Form.Input
+          label="Email"
+          placeholder="Email"
+          name="email"
+          type="email"
+          value={values.email}
+          onChange={handleChange}
+        />
+        <p>If no file is chosen, previous file is retained.</p>
+        <input
+          type="file"
+          name="file"
+          accept=".jpg,.jpeg,.png"
+          onChange={handleFileUpload}
+        />
+        <Button type="submit" primary>
+          Update
+        </Button>
+      </Form>
+      {Object.keys(errors).length > 0 && (
+        <div className="ui error message">
+          <ul className="list">
+            {Object.values(errors).map((error) => (
+              <li key={error}>{error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 }
 
