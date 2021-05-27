@@ -7,7 +7,7 @@ import FollowButton from "../FollowButton";
 import { Link } from "react-router-dom";
 import { FETCH_USER_QUERY } from "../../util/graphql";
 import gql from "graphql-tag";
-import none from "../no.png";
+import none from "../images/no.png";
 import "../styles/SingleUser.css";
 import Menubar from "../Menubar";
 

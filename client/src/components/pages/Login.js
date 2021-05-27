@@ -16,10 +16,7 @@ function Login(props) {
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    setvalues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setvalues({ ...values, [name]: value });
   };
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
@@ -60,7 +57,11 @@ function Login(props) {
             label="Username"
             placeholder="Username"
             name="username"
-            style={{ textTransform: "lowercase" }}
+            style={{
+              textTransform: "lowercase",
+              outline: errors.username ? "1px solid red" : "none",
+              background: errors.username ? "pink" : "none",
+            }}
             type="text"
             value={values.username}
             onChange={handleChange}

@@ -1,4 +1,4 @@
-import { ReactComponent as Comment } from "./comment.svg";
+import { ReactComponent as Comment } from "./images/comment.svg";
 import { Link } from "react-router-dom";
 import "./styles/Like.css";
 

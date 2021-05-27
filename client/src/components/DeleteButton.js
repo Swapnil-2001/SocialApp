@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Confirm } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import dustbin from "./dustbin.png";
+import dustbin from "./images/dustbin.png";
 
 import { FETCH_POSTS_QUERY } from "../util/graphql";
 

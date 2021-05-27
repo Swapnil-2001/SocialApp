@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Button } from "semantic-ui-react";
 import { useQuery } from "@apollo/client";
-import { FETCH_POSTS_QUERY } from "../../util/graphql";
 import { Link } from "react-router-dom";
 
+import { FETCH_POSTS_QUERY } from "../../util/graphql";
 import Menubar from "../Menubar";
 import { AuthContext } from "../../context/auth";
 import PostForm from "../PostForm";
@@ -23,20 +23,11 @@ function Home() {
         </Button>
       </div>
       <div className="each__post">
-        {user && (
-          <div>
-            <PostForm />
-          </div>
-        )}
+        {user && <PostForm />}
         {loading ? (
           <h1>Loading Posts...</h1>
         ) : (
-          posts &&
-          posts.map((post) => (
-            <div key={post.id}>
-              <PostCard post={post} />
-            </div>
-          ))
+          posts && posts.map((post) => <PostCard key={post.id} post={post} />)
         )}
       </div>
     </>

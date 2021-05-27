@@ -42,7 +42,7 @@ function PostForm() {
   };
   error && console.log(error);
   return (
-    <>
+    <div>
       <Form onSubmit={handleSubmit}>
         <h2 style={{ color: "#3d84b8", textAlign: "center" }}>
           Create a post!
@@ -77,7 +77,7 @@ function PostForm() {
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

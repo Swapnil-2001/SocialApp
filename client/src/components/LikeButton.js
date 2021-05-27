@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import { ReactComponent as Like } from "./heart.svg";
+import { ReactComponent as Like } from "./images/heart.svg";
 import "./styles/Like.css";
 
 function LikeButton({ user, post: { id, likeCount, likes } }) {
