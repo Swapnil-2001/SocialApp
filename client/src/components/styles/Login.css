@@ -1,0 +1,25 @@
+.login__wrapper {
+  margin: 75px 0;
+  display: flex;
+}
+
+.login__wrapper > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__wrapper img {
+  width: 420px;
+  object-fit: contain;
+}
+
+.login__wrapper h4 {
+  color: #3d84b8;
+}
+
+.login__wrapper input {
+  margin-bottom: 15px;
+}

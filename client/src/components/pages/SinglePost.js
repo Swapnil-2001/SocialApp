@@ -8,6 +8,8 @@ import { AuthContext } from "../../context/auth";
 import LikeButton from "../LikeButton";
 import DeleteButton from "../DeleteButton";
 
+// add comments
+
 function SinglePost(props) {
   const postId = props.match.params.postId;
   const { user } = useContext(AuthContext);
