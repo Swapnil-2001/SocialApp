@@ -1,22 +1,37 @@
 .menu {
-  background: #e4efe7;
-  padding: 20px 100px;
   display: flex;
-  align-items: center;
 }
 
 .menu > div {
-  margin-left: auto;
   display: flex;
+  flex: 1;
   align-items: center;
+  justify-content: center;
 }
 
-.menu p {
-  margin-left: 20px;
+.header {
+  margin: auto;
+  flex: 2;
+  margin-top: 10px;
+  background: #f1f1f1;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.header > * {
+  margin: 10px 20px;
+  padding: 10px;
+}
+
+.header > *:hover {
+  background-color: #e1e5ea;
 }
 
 .menu img {
   border-radius: 50%;
   width: 35px;
-  margin-right: 20px;
 }

@@ -68,14 +68,30 @@ function SingleUser(props) {
             <div className="user__info__div">
               <h2>{username}</h2>
               <div className="first__span">
-                {posts && <span>{posts.length} Posts</span>}
-                <span>{followers.length} Followers</span>
-                <span>{following.length} Following</span>
+                {posts && (
+                  <span>
+                    <span style={{ fontSize: "2rem", color: "#2978b5" }}>
+                      {posts.length}
+                    </span>{" "}
+                    Posts
+                  </span>
+                )}
+                <span>
+                  <span style={{ fontSize: "2rem", color: "#2978b5" }}>
+                    {followers.length}
+                  </span>{" "}
+                  Followers
+                </span>
+                <span>
+                  <span style={{ fontSize: "2rem", color: "#2978b5" }}>
+                    {following.length}
+                  </span>{" "}
+                  Following
+                </span>
               </div>
               <p>{email}</p>
-
               {followers.length > 0 && (
-                <div>
+                <div className="followed__div">
                   <span>Followed by</span>
                   <span>
                     <Link to={`/user/${followers[0].username}`}>

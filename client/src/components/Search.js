@@ -24,9 +24,9 @@ function Search() {
   };
   return (
     <>
-      <Menubar />
+      <Menubar active="search" />
       <div className="search__wrapper">
-        <div style={{ margin: "20px", textAlign: "center" }}>
+        <div style={{ margin: "50px", textAlign: "center" }}>
           <Input
             placeholder="Username"
             icon="search"
