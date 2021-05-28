@@ -15,13 +15,16 @@
 
 .ind__user {
   width: 550px;
-  padding: 15px;
+  padding: 5px;
   display: flex;
-  background: #eeeeee;
+  align-items: center;
+  justify-content: center;
+  background: #f1f1f1;
+  border-radius: 5px;
 }
 
 .ind__user img {
-  width: 65px;
+  width: 50px;
   object-fit: contain;
   border-radius: 50%;
 }

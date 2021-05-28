@@ -1,8 +1,7 @@
 .wrapper {
-  margin: 30px 150px;
+  margin: 50px 250px;
   padding: 30px;
-  border: 1px solid #325288;
-  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .user {
@@ -16,6 +15,7 @@
 
 .image__div > div {
   margin-bottom: 20px;
+  color: #2978b5;
 }
 
 .user__info__div {
@@ -28,32 +28,43 @@
 
 .user__info__div h2 {
   color: #2978b5;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .user__info__div > p {
-  color: #0061a8;
-  margin-top: 20px;
-}
-
-.user__info__div div {
-  margin-bottom: 20px;
+  color: #867ae9;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
 
 span {
-  word-spacing: 2px;
-  margin: 2px;
+  margin-left: 5px;
+}
+
+.first__span {
+  margin-bottom: 30px;
 }
 
 .first__span span {
-  margin: 30px;
+  margin: 5px;
+}
+
+.first__span > span {
+  margin: 15px;
   font-size: 1.2rem;
   font-weight: 600;
+}
+
+.followed__div {
+  color: #21094e;
+  margin-bottom: 30px;
 }
 
 .user img {
   margin: 20px 0;
   border-radius: 50%;
+  border: 3px solid #2978b5;
   width: 150px;
 }
 

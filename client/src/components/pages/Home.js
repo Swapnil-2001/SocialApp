@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
-import { Button } from "semantic-ui-react";
 import { useQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
 
 import { FETCH_POSTS_QUERY } from "../../util/graphql";
 import Menubar from "../Menubar";
@@ -16,12 +14,7 @@ function Home() {
     useQuery(FETCH_POSTS_QUERY);
   return (
     <>
-      <Menubar />
-      <div style={{ marginTop: "30px", textAlign: "center" }}>
-        <Button color="grey" as={Link} to="/search">
-          Search Users
-        </Button>
-      </div>
+      <Menubar active="home" />
       <div className="each__post">
         {user && <PostForm />}
         {loading ? (

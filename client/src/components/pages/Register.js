@@ -55,7 +55,7 @@ function Register(props) {
 
   return (
     <>
-      <Menubar />
+      <Menubar active="register" />
       <Container>
         <Form
           onSubmit={handleSubmit}
