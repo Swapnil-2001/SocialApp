@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
-import { Button, Form, Container } from "semantic-ui-react";
+import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
 import Menubar from "../Menubar";
+import "../styles/Login.css";
 import { AuthContext } from "../../context/auth";
+import loginImg from "../images/chat.png";
 
 function Login(props) {
   const context = useContext(AuthContext);
@@ -41,54 +43,59 @@ function Login(props) {
   return (
     <>
       <Menubar active="login" />
-      <Container>
-        <Form
-          onSubmit={handleSubmit}
-          noValidate
-          className={loading ? "loading" : ""}
-        >
-          <h1
-            style={{ marginTop: "30px", color: "#3d84b8", textAlign: "center" }}
+      <div className="login__wrapper">
+        <div>
+          <img src={loginImg} alt="login" />
+        </div>
+        <div>
+          <Form
+            onSubmit={handleSubmit}
+            noValidate
+            className={loading ? "loading" : ""}
           >
-            Login
-          </h1>
-          <h4>Username</h4>
-          <input
-            label="Username"
-            placeholder="Username"
-            name="username"
-            style={{
-              textTransform: "lowercase",
-              outline: errors.username ? "1px solid red" : "none",
-              background: errors.username ? "pink" : "none",
-            }}
-            type="text"
-            value={values.username}
-            onChange={handleChange}
-          />
-          <h4>Password</h4>
-          <Form.Input
-            placeholder="Password"
-            name="password"
-            type="password"
-            error={errors.password ? true : false}
-            value={values.password}
-            onChange={handleChange}
-          />
-          <Button type="submit" primary>
-            Login
-          </Button>
-        </Form>
-        {Object.keys(errors).length > 0 && (
-          <div className="ui error message">
-            <ul className="list">
-              {Object.values(errors).map((error) => (
-                <li key={error}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </Container>
+            <h4>Username</h4>
+            <input
+              placeholder="Username"
+              name="username"
+              style={{
+                textTransform: "lowercase",
+                outline: errors.username ? "1px solid red" : "none",
+                background: errors.username ? "#f6dfeb" : "#f1f1f1",
+                border: "none",
+              }}
+              type="text"
+              value={values.username}
+              onChange={handleChange}
+            />
+            <h4>Password</h4>
+            <input
+              placeholder="password"
+              name="password"
+              type="password"
+              style={{
+                outline: errors.password ? "1px solid red" : "none",
+                background: errors.password ? "#f6dfeb" : "#f1f1f1",
+                border: "none",
+                marginBottom: "25px",
+              }}
+              value={values.password}
+              onChange={handleChange}
+            />
+            <Button type="submit" primary>
+              Login
+            </Button>
+          </Form>
+          {Object.keys(errors).length > 0 && (
+            <div className="ui error message">
+              <ul className="list">
+                {Object.values(errors).map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 }
