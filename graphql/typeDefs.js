@@ -27,6 +27,13 @@ module.exports = gql`
     id: ID!
     username: String!
   }
+  type Message {
+    id: ID!
+    body: String!
+    from: String!
+    to: String!
+    createdAt: String!
+  }
   type User {
     id: ID!
     token: String!
@@ -50,6 +57,7 @@ module.exports = gql`
     email: String!
   }
   type Query {
+    getMessages(username: String!): [Message]
     getUsers(search: String!): [User]
     getUser(username: String!): User
     getPosts: [Post]
@@ -64,6 +72,7 @@ module.exports = gql`
       oldPassword: String!
       newPassword: String!
     ): User!
+    sendMessage(to: String!, body: String!): Message!
     updateUser(userInput: UserInput): User!
     followUser(otherUsername: String!): Follow!
     createPost(body: String!, image: String!): Post!
