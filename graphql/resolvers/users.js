@@ -5,11 +5,9 @@ const {
   validateRegisterInput,
   validateLoginInput,
 } = require("../../util/validators");
-const checkAuth = require("../../util/check-auth");
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
-const Post = require("../../models/Post");
-const { UserInputError } = require("apollo-server");
+const { UserInputError, AuthenticationError } = require("apollo-server");
 
 const generateToken = (user) =>
   jwt.sign(
@@ -67,8 +65,9 @@ module.exports = {
         id: updatedUser._id,
       };
     },
-    async followUser(_, { otherUsername }, context) {
-      const { username } = checkAuth(context);
+    async followUser(_, { otherUsername }, { user }) {
+      if (!user) throw new AuthenticationError("Unauthenticated");
+      const { username } = user;
       const currentUser = await User.findOne({ username });
       const otherUser = await User.findOne({ username: otherUsername });
       if (!otherUser) {

@@ -4,6 +4,7 @@ import "semantic-ui-css/semantic.min.css";
 import AuthRoute from "./util/AuthRoute";
 import { AuthProvider } from "./context/auth";
 import Search from "./components/Search";
+import Messages from "./components/Messages";
 import SingleUser from "./components/pages/SingleUser";
 import SinglePost from "./components/pages/SinglePost";
 import Home from "./components/pages/Home";
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/search" component={Search} />
         <Route exact path="/posts/:postId" component={SinglePost} />
         <Route exact path="/user/:username" component={SingleUser} />
+        <Route exact path="/messages" component={Messages} />
       </Router>
     </AuthProvider>
   );
