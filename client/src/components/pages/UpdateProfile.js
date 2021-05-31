@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../context/auth";
+import React, { useState } from "react";
+import { useAuthDispatch, useAuthState } from "../../context/auth";
 import { useMutation } from "@apollo/client";
 import { Form, Button } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
@@ -10,7 +10,8 @@ import gql from "graphql-tag";
 function UpdateProfile(props) {
   const username = props.match.params.username;
   const [errors, setErrors] = useState({});
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useAuthState();
+  const dispatch = useAuthDispatch();
   const history = useHistory();
   if (!user || user.username !== username) {
     history.push("/");
@@ -22,7 +23,7 @@ function UpdateProfile(props) {
   });
   const [updateUserFunction, { loading }] = useMutation(UPDATE_USER, {
     update() {
-      logout();
+      dispatch({ type: "LOGOUT" });
       props.history.push("/login");
     },
     onError(err) {

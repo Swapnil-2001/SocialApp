@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../context/auth";
+import React from "react";
+import { useAuthState } from "../../context/auth";
 import { useQuery } from "@apollo/client";
 import moment from "moment";
 
@@ -13,7 +13,7 @@ import Menubar from "../Menubar";
 
 function SingleUser(props) {
   const username = props.match.params.username;
-  const { user } = useContext(AuthContext);
+  const { user } = useAuthState();
   const { loading, data: { getUser } = {} } = useQuery(FETCH_USER_QUERY, {
     variables: {
       username,

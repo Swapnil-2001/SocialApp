@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import CommentButton from "./CommentButton";
 import LikeButton from "./LikeButton";
 import DeleteButton from "./DeleteButton";
-import { AuthContext } from "../context/auth";
+import { useAuthState } from "../context/auth";
 import "./styles/PostCard.css";
 
 const truncate = (s) => (s.length > 75 ? s.substring(0, 75) + "..." : s);
@@ -21,7 +21,7 @@ const PostCard = ({
     commentCount,
   },
 }) => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuthState();
   return (
     <div className="postcard__wrapper">
       <h4>

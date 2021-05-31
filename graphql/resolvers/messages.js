@@ -1,4 +1,8 @@
-const { UserInputError, withFilter } = require("apollo-server");
+const {
+  UserInputError,
+  AuthenticationError,
+  withFilter,
+} = require("apollo-server");
 
 const Message = require("../../models/Message");
 const User = require("../../models/User");

@@ -1,16 +1,31 @@
-import React, { useState } from "react";
-import { useLazyQuery } from "@apollo/client";
+import React, { useState, useEffect } from "react";
+import { useLazyQuery, useSubscription } from "@apollo/client";
 import { Input } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
 import gql from "graphql-tag";
 
+import { useAuthState } from "../context/auth";
 import MessageList from "./message/Messages";
 import Menubar from "./Menubar";
 import none from "./images/no.png";
 import "./styles/Messages.css";
 
 function Messages() {
+  const { user } = useAuthState();
+  const history = useHistory();
+  if (!user) {
+    history.push("/");
+  }
   const [selected, setSelected] = useState("");
   const [search, setSearch] = useState("");
+
+  const { data: messageData, error: messageError } =
+    useSubscription(NEW_MESSAGE);
+
+  useEffect(() => {
+    if (messageError) console.log(messageError);
+  });
+
   const [getSearchedUsers, { loading, data: { getUsers } = {} }] = useLazyQuery(
     FETCH_SEARCHED_USERS,
     {
@@ -60,6 +75,18 @@ function Messages() {
     </>
   );
 }
+
+const NEW_MESSAGE = gql`
+  subscription newMessage {
+    newMessage {
+      id
+      body
+      from
+      to
+      createdAt
+    }
+  }
+`;
 
 const FETCH_SEARCHED_USERS = gql`
   query getUsers($search: String!) {

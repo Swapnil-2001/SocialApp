@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { ReactComponent as Home } from "./images/home.svg";
 import none from "./images/no.png";
 import "./styles/Menubar.css";
-import { AuthContext } from "../context/auth";
+import { useAuthDispatch, useAuthState } from "../context/auth";
 
 export default function MenuExampleSecondaryPointing({ active }) {
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useAuthState();
+  const dispatch = useAuthDispatch();
   const history = useHistory();
 
   return user ? (
@@ -49,7 +50,7 @@ export default function MenuExampleSecondaryPointing({ active }) {
         style={{ cursor: "pointer", color: "#687980" }}
         onClick={() => {
           history.push("/");
-          logout();
+          dispatch({ type: "LOGOUT" });
         }}
       >
         Logout
