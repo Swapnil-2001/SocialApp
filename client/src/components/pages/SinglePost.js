@@ -24,16 +24,8 @@ function SinglePost(props) {
   if (loading) {
     postMarkup = <div>Loading Post...</div>;
   } else {
-    const {
-      id,
-      body,
-      createdAt,
-      username,
-      comments,
-      likes,
-      likeCount,
-      commentCount,
-    } = getPost;
+    const { id, body, createdAt, username, likes, likeCount, commentCount } =
+      getPost;
     postMarkup = (
       <Grid>
         <Grid.Row>

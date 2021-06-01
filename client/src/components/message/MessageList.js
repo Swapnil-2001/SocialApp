@@ -3,11 +3,15 @@ import { useQuery, useMutation } from "@apollo/client";
 import { Form, Button } from "semantic-ui-react";
 import gql from "graphql-tag";
 
-import { useMessageDispatch } from "../../context/message";
+import { useMessageState, useMessageDispatch } from "../../context/message";
 import "../styles/Messages.css";
 
 function Messages({ selectedUser }) {
   const dispatch = useMessageDispatch();
+  useEffect(() => {
+    dispatch({ type: "SET_SELECTED_USER", payload: selectedUser });
+  }, [dispatch, selectedUser]);
+  const { users } = useMessageState();
   const [body, setBody] = useState("");
   const [sendMessage] = useMutation(SEND_MESSAGE, {
     onError: (err) => console.log(err),
@@ -16,7 +20,7 @@ function Messages({ selectedUser }) {
       to: selectedUser,
     },
   });
-  const { loading, data: { getMessages: messages } = {} } = useQuery(
+  const { loading, data: { getMessages } = {} } = useQuery(
     FETCH_MESSAGES_QUERY,
     {
       onError: (err) => console.log(err),
@@ -26,16 +30,18 @@ function Messages({ selectedUser }) {
     }
   );
   useEffect(() => {
-    if (messages) {
+    if (getMessages) {
       dispatch({
         type: "SET_USER_MESSAGES",
         payload: {
           username: selectedUser,
-          messages,
+          messages: getMessages,
         },
       });
     }
-  }, [messages, dispatch, selectedUser]);
+  }, [getMessages, dispatch, selectedUser]);
+  const selected = users?.find((u) => u.selected === true);
+  const messages = selected?.messages;
   const handleSubmit = (e) => {
     e.preventDefault();
     if (body.trim() === "") return;
@@ -50,9 +56,9 @@ function Messages({ selectedUser }) {
         <>
           <div>
             {messages &&
-              messages.map((message, ind) => (
+              messages.map((message) => (
                 <div
-                  key={ind}
+                  key={message.id}
                   className={message.from === selectedUser ? "other" : "me"}
                 >
                   {message.body}
@@ -97,6 +103,8 @@ const FETCH_MESSAGES_QUERY = gql`
       body
       from
       to
+      id
+      createdAt
     }
   }
 `;
