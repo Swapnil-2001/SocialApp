@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom";
 import gql from "graphql-tag";
 
 import { useAuthState } from "../context/auth";
-import MessageList from "./message/Messages";
+import { useMessageDispatch, useMessageState } from "../context/message";
+import MessageList from "./message/MessageList";
 import Menubar from "./Menubar";
 import none from "./images/no.png";
 import "./styles/Messages.css";
@@ -16,7 +17,15 @@ function Messages() {
   if (!user) {
     history.push("/");
   }
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(null);
+  const messageDispatch = useMessageDispatch();
+  useEffect(() => {
+    messageDispatch({
+      type: "SET_USERS",
+      payload: user.chats,
+    });
+  }, [messageDispatch, user]);
+  const { users } = useMessageState();
   const [search, setSearch] = useState("");
 
   const { data: messageData, error: messageError } =
@@ -24,7 +33,20 @@ function Messages() {
 
   useEffect(() => {
     if (messageError) console.log(messageError);
-  });
+
+    if (messageData) {
+      const message = messageData.newMessage;
+      const otherUser =
+        user.username === message.to ? message.from : message.to;
+      messageDispatch({
+        type: "ADD_MESSAGE",
+        payload: {
+          username: otherUser,
+          message,
+        },
+      });
+    }
+  }, [messageError, messageData, messageDispatch, user]);
 
   const [getSearchedUsers, { loading, data: { getUsers } = {} }] = useLazyQuery(
     FETCH_SEARCHED_USERS,
@@ -59,7 +81,9 @@ function Messages() {
               <div>
                 {getUsers.map((user) => (
                   <div
-                    onClick={() => setSelected(user.username)}
+                    onClick={() => {
+                      setSelected(user.username);
+                    }}
                     key={user.id}
                     className=""
                   >
@@ -69,8 +93,22 @@ function Messages() {
                 ))}
               </div>
             ))}
+          <div>
+            {users &&
+              users.map((chat) => (
+                <div
+                  onClick={() => {
+                    setSelected(chat.username);
+                  }}
+                  key={chat.username}
+                  className=""
+                >
+                  <p>{chat.username}</p>
+                </div>
+              ))}
+          </div>
         </div>
-        <div>{selected.length > 0 && <MessageList selected={selected} />}</div>
+        <div>{selected && <MessageList selectedUser={selected} />}</div>
       </div>
     </>
   );

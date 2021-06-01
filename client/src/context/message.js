@@ -3,7 +3,7 @@ import React, { createContext, useReducer, useContext } from "react";
 const MessageStateContext = createContext();
 const MessageDispatchContext = createContext();
 
-const messageReducer = (state, action) => {
+const messageReducer = (state = { users: [] }, action) => {
   let usersCopy, userIndex;
   const { username, message, messages } = action.payload;
   switch (action.type) {

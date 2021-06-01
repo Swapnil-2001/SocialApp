@@ -1,30 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Form, Button } from "semantic-ui-react";
 import gql from "graphql-tag";
 
+import { useMessageDispatch } from "../../context/message";
 import "../styles/Messages.css";
 
-function Messages({ selected }) {
+function Messages({ selectedUser }) {
+  const dispatch = useMessageDispatch();
   const [body, setBody] = useState("");
   const [sendMessage] = useMutation(SEND_MESSAGE, {
     onError: (err) => console.log(err),
     variables: {
       body,
-      to: selected,
+      to: selectedUser,
     },
   });
   const { loading, data: { getMessages: messages } = {} } = useQuery(
     FETCH_MESSAGES_QUERY,
     {
-      onError(err) {
-        console.log(err);
-      },
+      onError: (err) => console.log(err),
       variables: {
-        username: selected,
+        username: selectedUser,
       },
     }
   );
+  useEffect(() => {
+    if (messages) {
+      dispatch({
+        type: "SET_USER_MESSAGES",
+        payload: {
+          username: selectedUser,
+          messages,
+        },
+      });
+    }
+  }, [messages, dispatch, selectedUser]);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (body.trim() === "") return;
@@ -39,10 +50,10 @@ function Messages({ selected }) {
         <>
           <div>
             {messages &&
-              messages.map((message) => (
+              messages.map((message, ind) => (
                 <div
-                  key={message._id}
-                  className={message.from === selected ? "other" : "me"}
+                  key={ind}
+                  className={message.from === selectedUser ? "other" : "me"}
                 >
                   {message.body}
                 </div>

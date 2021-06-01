@@ -31,6 +31,7 @@ module.exports = {
       if (!user) throw new AuthenticationError("Unauthenticated");
       try {
         const otherUser = await User.findOne({ username: to });
+        const currentUser = await User.findOne({ username: user.username });
         if (!otherUser) throw new UserInputError("User not found.");
         if (user.username === to)
           throw new UserInputError("Message to own self.");
@@ -44,6 +45,19 @@ module.exports = {
         });
         const message = await newMessage.save();
         pubsub.publish("NEW_MESSAGE", { newMessage: message });
+        const included = otherUser.chats.find(
+          (chat) => chat.username === user.username
+        );
+        if (!included) {
+          otherUser.chats.push({
+            username: user.username,
+          });
+          currentUser.chats.push({
+            username: to,
+          });
+          await currentUser.save();
+          await otherUser.save();
+        }
         return message;
       } catch (error) {
         throw new Error(error);

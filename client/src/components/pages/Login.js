@@ -8,7 +8,7 @@ import "../styles/Login.css";
 import { useAuthDispatch } from "../../context/auth";
 import loginImg from "../images/chat.png";
 
-function Login(props) {
+function Login() {
   const dispatch = useAuthDispatch();
   const [errors, setErrors] = useState({});
   const [values, setvalues] = useState({
@@ -24,7 +24,7 @@ function Login(props) {
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
       dispatch({ type: "LOGIN", payload: userData });
-      props.history.push("/");
+      window.location.href = "/";
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -109,7 +109,9 @@ const LOGIN_USER = gql`
       username
       createdAt
       token
-      chats
+      chats {
+        username
+      }
     }
   }
 `;

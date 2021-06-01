@@ -8,7 +8,7 @@ import "../styles/Register.css";
 import { getBase64 } from "../../util/base64";
 import { useAuthDispatch } from "../../context/auth";
 
-function Register(props) {
+function Register() {
   const dispatch = useAuthDispatch();
   const [errors, setErrors] = useState({});
   const [values, setvalues] = useState({
@@ -27,7 +27,7 @@ function Register(props) {
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
     update(_, { data: { register: userData } }) {
       dispatch({ type: "LOGIN", payload: userData });
-      props.history.push("/");
+      window.location.href = "/";
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -156,7 +156,6 @@ const REGISTER_USER = gql`
       username
       createdAt
       token
-      chats
     }
   }
 `;
