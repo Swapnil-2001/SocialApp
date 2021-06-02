@@ -19,7 +19,7 @@ module.exports = {
             { from: user.username, to: username },
             { from: username, to: user.username },
           ],
-        }).sort({ createdAt: -1 });
+        });
         return messages;
       } catch (error) {
         throw new Error(error);

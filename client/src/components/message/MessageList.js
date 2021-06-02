@@ -53,7 +53,7 @@ function Messages({ selectedUser }) {
       {loading ? (
         <h1>Loading chats...</h1>
       ) : (
-        <>
+        <div className="message__box">
           <div>
             {messages &&
               messages.map((message) => (
@@ -79,7 +79,7 @@ function Messages({ selectedUser }) {
               </div>
             </Form.Field>
           </Form>
-        </>
+        </div>
       )}
     </>
   );
