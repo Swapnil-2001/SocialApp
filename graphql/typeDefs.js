@@ -65,6 +65,7 @@ module.exports = gql`
     getMessages(username: String!): [Message]
     getUsers(search: String!): [User]
     getUser(username: String!): User
+    getChats: [Chat]
     getPosts: [Post]
     getPostsByUser(username: String!): [Post]
     getPost(postId: ID!): Post

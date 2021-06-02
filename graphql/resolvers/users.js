@@ -42,6 +42,15 @@ module.exports = {
         throw new Error(error);
       }
     },
+    async getChats(_, __, { user }) {
+      if (!user) throw new AuthenticationError("Unauthenticated");
+      try {
+        const currentUser = await User.findOne({ username: user.username });
+        return currentUser.chats;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     async updateUser(_, { userInput: { id, image, email } }) {

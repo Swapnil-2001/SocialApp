@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLazyQuery, useSubscription } from "@apollo/client";
+import { useLazyQuery, useQuery, useSubscription } from "@apollo/client";
 import { Input } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 import gql from "graphql-tag";
@@ -19,12 +19,15 @@ function Messages() {
   }
   const [selected, setSelected] = useState(null);
   const messageDispatch = useMessageDispatch();
+  const { data: { getChats } = {} } = useQuery(FETCH_CHATS);
   useEffect(() => {
-    messageDispatch({
-      type: "SET_USERS",
-      payload: user.chats,
-    });
-  }, [messageDispatch, user]);
+    if (getChats) {
+      messageDispatch({
+        type: "SET_USERS",
+        payload: getChats,
+      });
+    }
+  }, [messageDispatch, getChats]);
   const { users } = useMessageState();
   const [search, setSearch] = useState("");
 
@@ -122,6 +125,14 @@ const NEW_MESSAGE = gql`
       from
       to
       createdAt
+    }
+  }
+`;
+
+const FETCH_CHATS = gql`
+  query getChats {
+    getChats {
+      username
     }
   }
 `;
