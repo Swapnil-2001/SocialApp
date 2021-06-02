@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { ReactComponent as Home } from "./images/home.svg";
+import { ReactComponent as Message } from "./images/messenger.svg";
 import none from "./images/no.png";
 import "./styles/Menubar.css";
 import { useAuthDispatch, useAuthState } from "../context/auth";
@@ -44,6 +45,18 @@ export default function MenuExampleSecondaryPointing({ active }) {
         </Link>
         <Link to={`/user/${user.username}`}>
           <img src={user.image ? user.image : none} alt="user" />
+        </Link>
+        <Link
+          style={{
+            backgroundColor: active === "message" ? "#3d84b8" : "",
+            borderRadius: active === "message" ? "5px" : "0",
+          }}
+          to="/messages"
+        >
+          <Message
+            style={{ width: "25px", height: "25px" }}
+            fill={active === "message" ? "white" : "#a6a9b6"}
+          />
         </Link>
       </div>
       <div

@@ -65,10 +65,16 @@ function Messages() {
   };
   return (
     <>
-      <Menubar active="search" />
+      <Menubar active="message" />
       <div className="dm__wrapper">
         <div className="dm__search">
-          <div style={{ margin: "50px", textAlign: "center" }}>
+          <div
+            style={{
+              marginTop: "50px",
+              marginBottom: "10px",
+              textAlign: "center",
+            }}
+          >
             <Input
               placeholder="Username"
               icon="search"
@@ -81,16 +87,15 @@ function Messages() {
             (getUsers.length === 0 ? (
               <p>No users by this username!</p>
             ) : (
-              <div>
+              <div style={{ backgroundColor: "#deedf0", borderRadius: "10px" }}>
                 {getUsers.map((user) => (
                   <div
                     onClick={() => {
                       setSelected(user.username);
                     }}
                     key={user.id}
-                    className=""
+                    className="search__users"
                   >
-                    <img src={user.image ? user.image : none} alt="user" />
                     <p>{user.username}</p>
                   </div>
                 ))}
@@ -104,7 +109,9 @@ function Messages() {
                     setSelected(chat.username);
                   }}
                   key={chat.username}
-                  className=""
+                  className={
+                    chat.selected ? "chat__users selected" : "chat__users"
+                  }
                 >
                   <p>{chat.username}</p>
                 </div>

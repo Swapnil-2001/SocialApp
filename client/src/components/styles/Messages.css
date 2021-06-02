@@ -1,9 +1,71 @@
 .dm__wrapper {
   display: flex;
+  margin: 30px 50px;
 }
 
 .dm__wrapper > div {
   flex: 1;
+}
+
+.chat__users {
+  display: flex;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 10px;
+}
+
+.search__users {
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-bottom: 10px;
+}
+
+.search__users:hover {
+  background-color: #f4f9f9;
+}
+
+.chat__users:hover {
+  background-color: #f4f9f9;
+}
+
+.selected {
+  background-color: #f4f9f9;
+  font-weight: bold;
+}
+
+.message__input {
+  background-color: #30475e;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message__input input {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  margin: 0 20px;
+}
+
+.message__input input:focus {
+  outline: none;
+}
+
+.message__input input::placeholder {
+  font-family: "Rubik", sans-serif;
+}
+
+.message__input > div {
+  margin-right: 20px;
 }
 
 .message__box {
@@ -13,15 +75,17 @@
 }
 
 .message__box header {
-  background-color: #867ae9;
+  background-color: #30475e;
   color: white;
   padding: 20px;
 }
 
 .message__box > div {
+  background-color: #f4f9f9;
   display: flex;
   flex-direction: column;
-  max-height: 200px;
+  min-height: 250px;
+  max-height: 300px;
   overflow-y: auto;
 }
 
@@ -31,7 +95,7 @@
 
 .message__box > div > div {
   max-width: 70%;
-  padding: 5px 10px;
+  padding: 10px;
   display: flex;
   flex-wrap: wrap;
   word-break: break-all;
@@ -39,17 +103,19 @@
 }
 
 .other {
-  background-color: #f1f1f1;
+  background-color: white;
   align-self: flex-start;
   margin: 5px 0;
-  margin-left: 15px;
+  margin-left: 20px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1), 0 1px 4px 0 rgba(0, 0, 0, 0.09);
+  color: #393e46;
 }
 
 .me {
-  background-color: #3d84b8;
+  background-color: #30475e;
   color: white;
   margin: 5px 0;
-  margin-right: 15px;
+  margin-right: 20px;
   justify-content: flex-end;
   margin-left: auto;
 }

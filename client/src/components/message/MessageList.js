@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { Form, Button } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import gql from "graphql-tag";
 
 import { useMessageState, useMessageDispatch } from "../../context/message";
@@ -73,20 +73,20 @@ function Messages({ selectedUser }) {
               ))}
             <AlwaysScrollToBottom />
           </div>
-          <Form onSubmit={handleSubmit}>
-            <Form.Field>
-              <Form.Input
+          <form onSubmit={handleSubmit}>
+            <div className="message__input">
+              <input
                 value={body}
                 placeholder="Write a message"
                 onChange={(e) => setBody(e.target.value)}
               />
-              <div style={{ textAlign: "center", marginTop: "20px" }}>
+              <div>
                 <Button type="submit" color="teal">
-                  Create
+                  Send
                 </Button>
               </div>
-            </Form.Field>
-          </Form>
+            </div>
+          </form>
         </div>
       )}
     </>
