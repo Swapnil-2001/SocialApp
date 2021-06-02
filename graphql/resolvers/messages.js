@@ -48,16 +48,22 @@ module.exports = {
         const included = otherUser.chats.find(
           (chat) => chat.username === user.username
         );
-        if (!included) {
-          otherUser.chats.push({
-            username: user.username,
-          });
-          currentUser.chats.push({
-            username: to,
-          });
-          await currentUser.save();
-          await otherUser.save();
+        if (included) {
+          otherUser.chats = otherUser.chats.filter(
+            (chat) => chat.username !== user.username
+          );
+          currentUser.chats = currentUser.chats.filter(
+            (chat) => chat.username !== to
+          );
         }
+        otherUser.chats.unshift({
+          username: user.username,
+        });
+        currentUser.chats.unshift({
+          username: to,
+        });
+        await currentUser.save();
+        await otherUser.save();
         return message;
       } catch (error) {
         throw new Error(error);

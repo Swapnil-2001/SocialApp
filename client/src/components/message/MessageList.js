@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { Form, Button } from "semantic-ui-react";
 import gql from "graphql-tag";
 
 import { useMessageState, useMessageDispatch } from "../../context/message";
 import "../styles/Messages.css";
+
+const AlwaysScrollToBottom = () => {
+  const elementRef = useRef();
+  useEffect(() => elementRef.current.scrollIntoView());
+  return <div ref={elementRef} />;
+};
 
 function Messages({ selectedUser }) {
   const dispatch = useMessageDispatch();
@@ -54,6 +60,7 @@ function Messages({ selectedUser }) {
         <h1>Loading chats...</h1>
       ) : (
         <div className="message__box">
+          <header>{selectedUser}</header>
           <div>
             {messages &&
               messages.map((message) => (
@@ -64,6 +71,7 @@ function Messages({ selectedUser }) {
                   {message.body}
                 </div>
               ))}
+            <AlwaysScrollToBottom />
           </div>
           <Form onSubmit={handleSubmit}>
             <Form.Field>

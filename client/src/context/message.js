@@ -51,8 +51,8 @@ const messageReducer = (state = { users: [] }, action) => {
             : null,
           latestMessage: message,
         };
-
-        usersCopy[userIndex] = newUser;
+        usersCopy = usersCopy.filter((user) => user.username !== username);
+        usersCopy.unshift(newUser);
       }
 
       return {

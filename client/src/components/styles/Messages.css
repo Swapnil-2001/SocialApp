@@ -10,7 +10,12 @@
   width: 850px;
   margin: 50px;
   margin-right: 30px;
-  border: 1px solid black;
+}
+
+.message__box header {
+  background-color: #867ae9;
+  color: white;
+  padding: 20px;
 }
 
 .message__box > div {
