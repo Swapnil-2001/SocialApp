@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Label, Icon, Button, Card, Grid } from "semantic-ui-react";
 import { useQuery } from "@apollo/client";
 import moment from "moment";
 import gql from "graphql-tag";
 
-import { AuthContext } from "../../context/auth";
+import { useAuthState } from "../../context/auth";
 import LikeButton from "../LikeButton";
 import DeleteButton from "../DeleteButton";
 
@@ -12,7 +12,7 @@ import DeleteButton from "../DeleteButton";
 
 function SinglePost(props) {
   const postId = props.match.params.postId;
-  const { user } = useContext(AuthContext);
+  const { user } = useAuthState();
   const { loading, data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
     variables: {
       postId,
@@ -24,16 +24,8 @@ function SinglePost(props) {
   if (loading) {
     postMarkup = <div>Loading Post...</div>;
   } else {
-    const {
-      id,
-      body,
-      createdAt,
-      username,
-      comments,
-      likes,
-      likeCount,
-      commentCount,
-    } = getPost;
+    const { id, body, createdAt, username, likes, likeCount, commentCount } =
+      getPost;
     postMarkup = (
       <Grid>
         <Grid.Row>

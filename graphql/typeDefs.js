@@ -27,6 +27,10 @@ module.exports = gql`
     id: ID!
     username: String!
   }
+  type Chat {
+    id: ID!
+    username: String!
+  }
   type Message {
     id: ID!
     body: String!
@@ -43,6 +47,7 @@ module.exports = gql`
     createdAt: String!
     followers: [Follow]!
     following: [Follow]!
+    chats: [Chat]!
   }
   input RegisterInput {
     image: String!
@@ -80,5 +85,8 @@ module.exports = gql`
     createComment(postId: ID!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!
     likePost(postId: ID!): Post!
+  }
+  type Subscription {
+    newMessage: Message!
   }
 `;

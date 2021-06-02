@@ -1,7 +1,6 @@
 const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Post = require("../../models/Post");
-const checkAuth = require("../../util/check-auth");
 
 module.exports = {
   Query: {
@@ -34,8 +33,8 @@ module.exports = {
     },
   },
   Mutation: {
-    async createPost(_, { body, image }, context) {
-      const user = checkAuth(context);
+    async createPost(_, { body, image }, { user }) {
+      if (!user) throw new AuthenticationError("Unauthenticated");
       if (body.trim() === "" && image === "") {
         throw new Error("Post body and image cannot both be missing.");
       }
@@ -49,8 +48,8 @@ module.exports = {
       const post = await newPost.save();
       return post;
     },
-    async deletePost(_, { postId }, context) {
-      const user = checkAuth(context);
+    async deletePost(_, { postId }, { user }) {
+      if (!user) throw new AuthenticationError("Unauthenticated");
       try {
         const post = await Post.findById(postId);
         if (!post) {
@@ -66,8 +65,9 @@ module.exports = {
         throw new Error(error);
       }
     },
-    async likePost(_, { postId }, context) {
-      const { username } = checkAuth(context);
+    async likePost(_, { postId }, { user }) {
+      if (!user) throw new AuthenticationError("Unauthenticated");
+      const { username } = user;
       const post = await Post.findById(postId);
       if (post) {
         const likeByUserIndex = post.likes.findIndex(

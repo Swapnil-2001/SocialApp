@@ -16,6 +16,11 @@ const userSchema = new Schema({
       username: String,
     },
   ],
+  chats: [
+    {
+      username: String,
+    },
+  ],
 });
 
 module.exports = model("User", userSchema);

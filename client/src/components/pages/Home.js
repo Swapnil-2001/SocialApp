@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useQuery } from "@apollo/client";
 
 import { FETCH_POSTS_QUERY } from "../../util/graphql";
 import Menubar from "../Menubar";
-import { AuthContext } from "../../context/auth";
+import { useAuthState } from "../../context/auth";
 import PostForm from "../PostForm";
 import PostCard from "../PostCard";
 import "../styles/Home.css";
 
 function Home() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuthState();
   const { loading, data: { getPosts: posts } = {} } =
     useQuery(FETCH_POSTS_QUERY);
   return (

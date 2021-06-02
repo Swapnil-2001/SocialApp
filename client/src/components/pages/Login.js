@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 
 import Menubar from "../Menubar";
 import "../styles/Login.css";
-import { AuthContext } from "../../context/auth";
+import { useAuthDispatch } from "../../context/auth";
 import loginImg from "../images/chat.png";
 
-function Login(props) {
-  const context = useContext(AuthContext);
+function Login() {
+  const dispatch = useAuthDispatch();
   const [errors, setErrors] = useState({});
   const [values, setvalues] = useState({
     username: "",
@@ -23,8 +23,8 @@ function Login(props) {
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
-      context.login(userData);
-      props.history.push("/");
+      dispatch({ type: "LOGIN", payload: userData });
+      window.location.href = "/";
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -109,6 +109,9 @@ const LOGIN_USER = gql`
       username
       createdAt
       token
+      chats {
+        username
+      }
     }
   }
 `;

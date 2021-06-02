@@ -1,13 +1,16 @@
-const { UserInputError } = require("apollo-server");
+const {
+  UserInputError,
+  AuthenticationError,
+  withFilter,
+} = require("apollo-server");
 
 const Message = require("../../models/Message");
 const User = require("../../models/User");
-const checkAuth = require("../../util/check-auth");
 
 module.exports = {
   Query: {
-    async getMessages(_, { username }, context) {
-      const user = checkAuth(context);
+    async getMessages(_, { username }, { user }) {
+      if (!user) throw new AuthenticationError("Unauthenticated");
       try {
         const otherUser = await User.findOne({ username });
         if (!otherUser) throw new UserInputError("User not found");
@@ -24,10 +27,11 @@ module.exports = {
     },
   },
   Mutation: {
-    async sendMessage(_, { to, body }, context) {
-      const user = checkAuth(context);
+    async sendMessage(_, { to, body }, { user, pubsub }) {
+      if (!user) throw new AuthenticationError("Unauthenticated");
       try {
         const otherUser = await User.findOne({ username: to });
+        const currentUser = await User.findOne({ username: user.username });
         if (!otherUser) throw new UserInputError("User not found.");
         if (user.username === to)
           throw new UserInputError("Message to own self.");
@@ -40,10 +44,43 @@ module.exports = {
           createdAt: new Date().toISOString(),
         });
         const message = await newMessage.save();
+        pubsub.publish("NEW_MESSAGE", { newMessage: message });
+        const included = otherUser.chats.find(
+          (chat) => chat.username === user.username
+        );
+        if (!included) {
+          otherUser.chats.push({
+            username: user.username,
+          });
+          currentUser.chats.push({
+            username: to,
+          });
+          await currentUser.save();
+          await otherUser.save();
+        }
         return message;
       } catch (error) {
         throw new Error(error);
       }
+    },
+  },
+  Subscription: {
+    newMessage: {
+      subscribe: withFilter(
+        (_, __, { user, pubsub }) => {
+          if (!user) throw new AuthenticationError("Unauthenticated");
+          return pubsub.asyncIterator("NEW_MESSAGE");
+        },
+        ({ newMessage }, _, { user }) => {
+          if (
+            newMessage.from === user.username ||
+            newMessage.to === user.username
+          ) {
+            return true;
+          }
+          return false;
+        }
+      ),
     },
   },
 };

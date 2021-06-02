@@ -1,0 +1,11 @@
+.dm__wrapper {
+  display: flex;
+}
+
+.dm__wrapper > div {
+  flex: 1;
+}
+
+.other {
+  background-color: grey;
+}

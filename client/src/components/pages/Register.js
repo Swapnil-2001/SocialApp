@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Container } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
@@ -6,10 +6,10 @@ import gql from "graphql-tag";
 import Menubar from "../Menubar";
 import "../styles/Register.css";
 import { getBase64 } from "../../util/base64";
-import { AuthContext } from "../../context/auth";
+import { useAuthDispatch } from "../../context/auth";
 
-function Register(props) {
-  const context = useContext(AuthContext);
+function Register() {
+  const dispatch = useAuthDispatch();
   const [errors, setErrors] = useState({});
   const [values, setvalues] = useState({
     image: "",
@@ -26,8 +26,8 @@ function Register(props) {
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
     update(_, { data: { register: userData } }) {
-      context.login(userData);
-      props.history.push("/");
+      dispatch({ type: "LOGIN", payload: userData });
+      window.location.href = "/";
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
