@@ -38,15 +38,23 @@ const messageReducer = (state = { users: [] }, action) => {
 
       userIndex = usersCopy.findIndex((u) => u.username === username);
 
-      let newUser = {
-        ...usersCopy[userIndex],
-        messages: usersCopy[userIndex].messages
-          ? [message, ...usersCopy[userIndex].messages]
-          : null,
-        latestMessage: message,
-      };
+      if (userIndex === -1) {
+        usersCopy = [
+          { username, messages: [message], selected: true },
+          ...usersCopy,
+        ];
+      } else {
+        let newUser = {
+          ...usersCopy[userIndex],
+          messages: usersCopy[userIndex].messages
+            ? [message, ...usersCopy[userIndex].messages]
+            : null,
+          latestMessage: message,
+        };
 
-      usersCopy[userIndex] = newUser;
+        usersCopy[userIndex] = newUser;
+      }
+
       return {
         ...state,
         users: usersCopy,
