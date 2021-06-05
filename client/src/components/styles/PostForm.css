@@ -1,24 +1,29 @@
-.custom-file-input::-webkit-file-upload-button {
-  visibility: hidden;
+.post__input {
+  margin: 15px;
+  padding: 10px 0;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.custom-file-input::before {
-  content: "Select an image";
-  display: inline-block;
-  background: linear-gradient(to top, #f9f9f9, #e3e3e3);
-  border: 1px solid #999;
-  border-radius: 3px;
-  padding: 5px 8px;
+
+.post__input textarea {
+  resize: none;
+  margin: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 25px;
+  padding: 15px 15px;
+  font-family: "Rubik", sans-serif;
+  text-align: center;
+  width: 85%;
+}
+
+.post__input textarea::placeholder {
+  color: #a6a9b6;
+}
+
+.post__input textarea:focus {
   outline: none;
-  white-space: nowrap;
-  cursor: pointer;
-  text-shadow: 1px 1px #fff;
-  font-weight: 700;
-  font-size: 10pt;
-  color: #3d84b8;
-}
-.custom-file-input:hover::before {
-  border-color: #3d84b8;
-}
-.custom-file-input:active::before {
-  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }

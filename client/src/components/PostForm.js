@@ -1,14 +1,22 @@
-import React, { useState } from "react";
-import { Form, Button } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Button } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import "./styles/PostForm.css";
 
+import "./styles/PostForm.css";
+import check from "./images/check.png";
+import image from "./images/image.png";
 import { getBase64 } from "../util/base64";
 import { FETCH_POSTS_QUERY } from "../util/graphql";
 
 function PostForm() {
   const [values, setValues] = useState({ body: "", image: "" });
+  const [uploaded, setUploaded] = useState(false);
+  useEffect(() => {
+    if (values.image !== "") {
+      setUploaded(true);
+    }
+  }, [values]);
   const [addPost, { error }] = useMutation(CREATE_POST, {
     update(proxy, result) {
       const data = proxy.readQuery({
@@ -43,33 +51,44 @@ function PostForm() {
   error && console.log(error);
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
-        <h2 style={{ color: "#3d84b8", textAlign: "center" }}>
-          Create a post!
-        </h2>
-        <Form.Field>
-          <Form.Input
+      <form onSubmit={handleSubmit}>
+        <div className="post__input">
+          <textarea
             placeholder="Write a post"
             onChange={(e) =>
               setValues((prev) => ({ ...prev, body: e.target.value }))
             }
             value={values.body}
-            error={error ? true : false}
           />
-          <input
-            type="file"
-            name="file"
-            accept=".jpg,.jpeg,.png"
-            className="custom-file-input"
-            onChange={handleFileUpload}
-          />
-          <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <Button type="submit" color="teal">
-              Create
-            </Button>
-          </div>
-        </Form.Field>
-      </Form>
+          <label htmlFor="myInput">
+            <img
+              src={image}
+              alt="upload"
+              style={{ width: "30px", cursor: "pointer" }}
+            />
+          </label>
+          {uploaded && (
+            <img
+              src={check}
+              alt="success"
+              style={{ width: "25px", margin: "10px" }}
+            />
+          )}
+        </div>
+        <input
+          type="file"
+          name="file"
+          id="myInput"
+          style={{ display: "none" }}
+          accept=".jpg,.jpeg,.png"
+          onChange={handleFileUpload}
+        />
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <Button type="submit" color="blue">
+            Create
+          </Button>
+        </div>
+      </form>
       {error && (
         <div className="ui error message">
           <ul className="list">
