@@ -17,7 +17,7 @@ function PostForm() {
       setUploaded(true);
     }
   }, [values]);
-  const [addPost, { error }] = useMutation(CREATE_POST, {
+  const [addPost] = useMutation(CREATE_POST, {
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_POSTS_QUERY,
@@ -48,7 +48,7 @@ function PostForm() {
     addPost();
     setValues({ body: "", image: "" });
   };
-  error && console.log(error);
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -89,13 +89,6 @@ function PostForm() {
           </Button>
         </div>
       </form>
-      {error && (
-        <div className="ui error message">
-          <ul className="list">
-            <li>{error.graphQLErrors[0]}</li>
-          </ul>
-        </div>
-      )}
     </div>
   );
 }
