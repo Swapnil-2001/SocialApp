@@ -36,7 +36,9 @@ function Messages({ selectedUser }) {
     }
   );
   useEffect(() => {
-    if (getMessages) {
+    const userIndex = users.findIndex((u) => u.username === selectedUser);
+    if (userIndex === -1) return;
+    if (!users[userIndex].messages && getMessages) {
       dispatch({
         type: "SET_USER_MESSAGES",
         payload: {
@@ -45,7 +47,7 @@ function Messages({ selectedUser }) {
         },
       });
     }
-  }, [getMessages, dispatch, selectedUser]);
+  }, [users, getMessages, dispatch, selectedUser]);
   const selected = users?.find((u) => u.selected === true);
   const messages = selected?.messages;
   const handleSubmit = (e) => {

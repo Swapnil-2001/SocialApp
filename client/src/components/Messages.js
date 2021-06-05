@@ -18,19 +18,18 @@ function Messages() {
     history.push("/");
   }
   const [selected, setSelected] = useState(null);
+  const { users } = useMessageState();
   const messageDispatch = useMessageDispatch();
   const { data: { getChats } = {} } = useQuery(FETCH_CHATS);
   useEffect(() => {
-    if (getChats) {
+    if (!users && getChats) {
       messageDispatch({
         type: "SET_USERS",
         payload: getChats,
       });
     }
-  }, [messageDispatch, getChats]);
-  const { users } = useMessageState();
+  }, [users, messageDispatch, getChats]);
   const [search, setSearch] = useState("");
-
   const { data: messageData, error: messageError } =
     useSubscription(NEW_MESSAGE);
 
