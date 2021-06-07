@@ -29,6 +29,7 @@ module.exports = gql`
   }
   type Chat {
     id: ID!
+    read: Boolean!
     username: String!
   }
   type Message {
