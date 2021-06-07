@@ -45,38 +45,27 @@ module.exports = {
         });
         const message = await newMessage.save();
         pubsub.publish("NEW_MESSAGE", { newMessage: message });
-        await User.updateOne(
-          { username: to },
-          { $pull: { chats: user.username } }
+        const included = otherUser.chats.find(
+          (chat) => chat.username === user.username
         );
-        await User.updateOne(
-          { username: user.username },
-          { $pull: { chats: otherUser.username } }
-        );
-        let newDoc = { username: user.username, read: false };
-        await User.updateOne(
-          { username: to },
-          {
-            $push: {
-              chats: {
-                $each: [newDoc],
-                $position: 0,
-              },
-            },
-          }
-        );
-        newDoc = { username: to, read: false };
-        await User.updateOne(
-          { username: user.username },
-          {
-            $push: {
-              chats: {
-                $each: [newDoc],
-                $position: 0,
-              },
-            },
-          }
-        );
+        if (included) {
+          otherUser.chats = otherUser.chats.filter(
+            (chat) => chat.username !== user.username
+          );
+          currentUser.chats = currentUser.chats.filter(
+            (chat) => chat.username !== to
+          );
+        }
+        otherUser.chats.unshift({
+          username: user.username,
+          read: false,
+        });
+        currentUser.chats.unshift({
+          username: to,
+          read: false,
+        });
+        await currentUser.save();
+        await otherUser.save();
         return message;
       } catch (error) {
         throw new Error(error);
