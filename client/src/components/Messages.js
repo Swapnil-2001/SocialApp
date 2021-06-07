@@ -44,6 +44,7 @@ function Messages() {
         payload: {
           username: otherUser,
           message,
+          selectChat: message.to !== user.username,
         },
       });
     }
@@ -90,7 +91,7 @@ function Messages() {
                     onClick={() => {
                       setSelected(user.username);
                     }}
-                    key={user.id}
+                    key={user.username}
                     className="search__users"
                   >
                     <p>{user.username}</p>

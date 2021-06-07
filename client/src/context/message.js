@@ -34,13 +34,14 @@ const messageReducer = (state = { users: [] }, action) => {
         users: usersCopy,
       };
     case "ADD_MESSAGE":
+      const { selectChat } = action.payload;
       usersCopy = [...state.users];
 
       userIndex = usersCopy.findIndex((u) => u.username === username);
 
       if (userIndex === -1) {
         usersCopy = [
-          { username, messages: [message], selected: true },
+          { username, messages: [message], selected: selectChat },
           ...usersCopy,
         ];
       } else {

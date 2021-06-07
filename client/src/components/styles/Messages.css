@@ -13,6 +13,10 @@
   padding-top: 0;
 }
 
+.chat__unread {
+  color: red;
+}
+
 .chat__users {
   display: flex;
   font-size: 1.2rem;
