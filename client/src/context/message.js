@@ -40,6 +40,12 @@ const messageReducer = (state = { users: [] }, action) => {
       userIndex = usersCopy.findIndex((u) => u.username === username);
 
       if (userIndex === -1) {
+        if (selectChat) {
+          usersCopy.map((user) => ({
+            ...user,
+            selected: false,
+          }));
+        }
         usersCopy = [
           { username, messages: [message], selected: selectChat },
           ...usersCopy,
