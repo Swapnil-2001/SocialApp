@@ -8,7 +8,6 @@ import { useAuthState } from "../context/auth";
 import { useMessageDispatch, useMessageState } from "../context/message";
 import MessageList from "./message/MessageList";
 import Menubar from "./Menubar";
-import none from "./images/no.png";
 import "./styles/Messages.css";
 
 function Messages() {
@@ -67,11 +66,10 @@ function Messages() {
       <Menubar active="message" />
       <div className="dm__wrapper">
         <div className="dm__search">
+          <h2 style={{ margin: "40px 0 30px 0", color: "white" }}>Messages</h2>
           <div
             style={{
-              marginTop: "50px",
-              marginBottom: "10px",
-              textAlign: "center",
+              marginBottom: "30px",
             }}
           >
             <Input
@@ -139,6 +137,7 @@ const FETCH_CHATS = gql`
   query getChats {
     getChats {
       username
+      read
     }
   }
 `;

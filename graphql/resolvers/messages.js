@@ -58,9 +58,11 @@ module.exports = {
         }
         otherUser.chats.unshift({
           username: user.username,
+          read: false,
         });
         currentUser.chats.unshift({
           username: to,
+          read: false,
         });
         await currentUser.save();
         await otherUser.save();

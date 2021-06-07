@@ -19,6 +19,7 @@ const userSchema = new Schema({
   chats: [
     {
       username: String,
+      read: Boolean,
     },
   ],
 });
