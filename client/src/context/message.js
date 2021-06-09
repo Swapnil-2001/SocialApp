@@ -3,11 +3,12 @@ import React, { createContext, useReducer, useContext } from "react";
 const MessageStateContext = createContext();
 const MessageDispatchContext = createContext();
 
-const messageReducer = (state = { users: [] }, action) => {
+const messageReducer = (state = { users: [], selectedUser: "" }, action) => {
   let usersCopy, userIndex;
   const { username = "", message = {}, messages = [] } = action.payload;
   switch (action.type) {
     case "SET_USERS":
+      console.log(action.payload);
       return {
         ...state,
         users: action.payload,
@@ -24,17 +25,24 @@ const messageReducer = (state = { users: [] }, action) => {
         users: usersCopy,
       };
     case "SET_SELECTED_USER":
-      usersCopy = state.users.map((user) => ({
-        ...user,
-        selected: user.username === action.payload,
-      }));
+      usersCopy = state.users.map((user) => {
+        const currRead = user.read;
+        return {
+          ...user,
+          selected: user.username === action.payload,
+          read: user.username === action.payload ? true : currRead,
+        };
+      });
 
       return {
         ...state,
         users: usersCopy,
+        selectedUser: action.payload,
       };
+    // case "TOGGLE_READ":
+
     case "ADD_MESSAGE":
-      const { selectChat } = action.payload;
+      const { selectChat, read } = action.payload;
       usersCopy = [...state.users];
 
       userIndex = usersCopy.findIndex((u) => u.username === username);
@@ -47,7 +55,7 @@ const messageReducer = (state = { users: [] }, action) => {
           }));
         }
         usersCopy = [
-          { username, messages: [message], selected: selectChat },
+          { username, messages: [message], selected: selectChat, read },
           ...usersCopy,
         ];
       } else {
@@ -57,6 +65,7 @@ const messageReducer = (state = { users: [] }, action) => {
             ? [...usersCopy[userIndex].messages, message]
             : null,
           latestMessage: message,
+          read,
         };
         usersCopy = usersCopy.filter((user) => user.username !== username);
         usersCopy.unshift(newUser);
