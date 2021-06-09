@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useLazyQuery, useQuery, useSubscription } from "@apollo/client";
+import {
+  useLazyQuery,
+  useQuery,
+  useSubscription,
+  useMutation,
+} from "@apollo/client";
 import { Input } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 import gql from "graphql-tag";
@@ -17,7 +22,7 @@ function Messages() {
     history.push("/");
   }
   const [selected, setSelected] = useState(null);
-  const { users } = useMessageState();
+  const { users, selectedUser } = useMessageState();
   const messageDispatch = useMessageDispatch();
   const { data: { getChats } = {} } = useQuery(FETCH_CHATS);
   useEffect(() => {
@@ -29,6 +34,11 @@ function Messages() {
     }
   }, [users, messageDispatch, getChats]);
   const [search, setSearch] = useState("");
+  const [toggleRead] = useMutation(CHANGE_READ, {
+    onError(err) {
+      return err;
+    },
+  });
   const { data: messageData, error: messageError } =
     useSubscription(NEW_MESSAGE);
 
@@ -39,15 +49,32 @@ function Messages() {
       const message = messageData.newMessage;
       const otherUser =
         user.username === message.to ? message.from : message.to;
-      messageDispatch({
-        type: "ADD_MESSAGE",
-        payload: {
-          username: otherUser,
-          message,
-        },
-      });
+      if (message.to !== user.username || otherUser === selectedUser) {
+        messageDispatch({
+          type: "ADD_MESSAGE",
+          payload: {
+            username: otherUser,
+            message,
+            selectChat: message.to !== user.username,
+            read: true,
+          },
+        });
+        if (message.to === user.username)
+          toggleRead({ variables: { username: otherUser, newStatus: true } });
+      } else {
+        messageDispatch({
+          type: "ADD_MESSAGE",
+          payload: {
+            username: otherUser,
+            message,
+            selectChat: message.to !== user.username,
+            read: false,
+          },
+        });
+        toggleRead({ variables: { username: otherUser, newStatus: false } });
+      }
     }
-  }, [messageError, messageData, messageDispatch, user]);
+  }, [toggleRead, messageError, messageData, messageDispatch, user]);
 
   const [getSearchedUsers, { loading, data: { getUsers } = {} }] = useLazyQuery(
     FETCH_SEARCHED_USERS,
@@ -66,7 +93,7 @@ function Messages() {
       <Menubar active="message" />
       <div className="dm__wrapper">
         <div className="dm__search">
-          <h2 style={{ margin: "40px 0 30px 0", color: "white" }}>Messages</h2>
+          <h2 style={{ margin: "40px 0 30px 0" }}>Messages</h2>
           <div
             style={{
               marginBottom: "30px",
@@ -89,8 +116,16 @@ function Messages() {
                   <div
                     onClick={() => {
                       setSelected(user.username);
+                      if (!user.read) {
+                        toggleRead({
+                          variables: {
+                            username: user.username,
+                            newStatus: true,
+                          },
+                        });
+                      }
                     }}
-                    key={user.id}
+                    key={user.username}
                     className="search__users"
                   >
                     <p>{user.username}</p>
@@ -104,10 +139,19 @@ function Messages() {
                 <div
                   onClick={() => {
                     setSelected(chat.username);
+                    if (!chat.read) {
+                      toggleRead({
+                        variables: { username: chat.username, newStatus: true },
+                      });
+                    }
                   }}
                   key={chat.username}
                   className={
-                    chat.selected ? "chat__users selected" : "chat__users"
+                    chat.selected
+                      ? "chat__users selected"
+                      : chat.read
+                      ? "chat__users"
+                      : "chat__unread"
                   }
                 >
                   <p>{chat.username}</p>
@@ -148,6 +192,17 @@ const FETCH_SEARCHED_USERS = gql`
       id
       image
       username
+    }
+  }
+`;
+
+const CHANGE_READ = gql`
+  mutation changeRead($username: String!, $newStatus: Boolean!) {
+    changeRead(username: $username, newStatus: $newStatus) {
+      chats {
+        username
+        read
+      }
     }
   }
 `;

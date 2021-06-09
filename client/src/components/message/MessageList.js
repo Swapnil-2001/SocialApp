@@ -63,7 +63,7 @@ function Messages({ selectedUser }) {
       ) : (
         <div className="message__box">
           <header>{selectedUser}</header>
-          <div>
+          <div style={{ paddingTop: "10px" }}>
             {messages &&
               messages.map((message) => (
                 <div
@@ -79,11 +79,11 @@ function Messages({ selectedUser }) {
             <div className="message__input">
               <input
                 value={body}
-                placeholder="Write a message"
+                placeholder="Type a message"
                 onChange={(e) => setBody(e.target.value)}
               />
               <div>
-                <Button type="submit" color="teal">
+                <Button type="submit" color="violet">
                   Send
                 </Button>
               </div>

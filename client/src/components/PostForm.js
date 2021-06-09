@@ -47,6 +47,7 @@ function PostForm() {
     e.preventDefault();
     addPost();
     setValues({ body: "", image: "" });
+    setUploaded(false);
   };
 
   return (
@@ -54,7 +55,7 @@ function PostForm() {
       <form onSubmit={handleSubmit}>
         <div className="post__input">
           <textarea
-            placeholder="Write a post"
+            placeholder="What's on your mind?"
             onChange={(e) =>
               setValues((prev) => ({ ...prev, body: e.target.value }))
             }

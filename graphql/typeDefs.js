@@ -80,6 +80,7 @@ module.exports = gql`
       newPassword: String!
     ): User!
     sendMessage(to: String!, body: String!): Message!
+    changeRead(username: String!, newStatus: Boolean!): User!
     updateUser(userInput: UserInput): User!
     followUser(otherUsername: String!): Follow!
     createPost(body: String!, image: String!): Post!
