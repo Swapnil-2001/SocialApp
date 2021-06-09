@@ -93,7 +93,7 @@ function Messages() {
       <Menubar active="message" />
       <div className="dm__wrapper">
         <div className="dm__search">
-          <h2 style={{ margin: "40px 0 30px 0", color: "white" }}>Messages</h2>
+          <h2 style={{ margin: "40px 0 30px 0" }}>Messages</h2>
           <div
             style={{
               marginBottom: "30px",

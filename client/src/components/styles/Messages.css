@@ -8,7 +8,7 @@
 }
 
 .dm__search {
-  background: #30475e;
+  background-color: #f4f9f9;
   padding: 30px;
   padding-top: 0;
 }
@@ -28,8 +28,8 @@
   display: flex;
   font-size: 1.2rem;
   padding: 10px 0;
-  border-radius: 10px;
   cursor: pointer;
+  background-color: grey;
   transition: background-color 0.2s;
   margin-bottom: 10px;
 }
@@ -58,7 +58,7 @@
 }
 
 .message__input {
-  background-color: #30475e;
+  background-color: #98acf8;
   padding: 20px 0;
   display: flex;
   justify-content: center;
@@ -67,9 +67,9 @@
 
 .message__input input {
   border: none;
-  padding: 10px;
-  border-radius: 5px;
-  width: 100%;
+  padding: 15px 10px;
+  border-radius: 25px;
+  width: 75%;
   margin: 0 20px;
 }
 
@@ -79,6 +79,7 @@
 
 .message__input input::placeholder {
   font-family: "Rubik", sans-serif;
+  color: #9ba4b4;
 }
 
 .message__input > div {
@@ -86,13 +87,13 @@
 }
 
 .message__box {
-  width: 850px;
+  width: 800px;
   margin: 50px;
   margin-right: 30px;
 }
 
 .message__box header {
-  background-color: #30475e;
+  background-color: #98acf8;
   color: white;
   padding: 20px;
 }
@@ -101,7 +102,7 @@
   background-color: #f4f9f9;
   display: flex;
   flex-direction: column;
-  min-height: 250px;
+  min-height: 300px;
   max-height: 300px;
   overflow-y: auto;
 }
@@ -129,7 +130,7 @@
 }
 
 .me {
-  background-color: #30475e;
+  background-color: #867ae9;
   color: white;
   margin: 5px 0;
   margin-right: 20px;
