@@ -47,6 +47,7 @@ function PostForm() {
     e.preventDefault();
     addPost();
     setValues({ body: "", image: "" });
+    setUploaded(false);
   };
 
   return (

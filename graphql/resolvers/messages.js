@@ -62,11 +62,27 @@ module.exports = {
         });
         currentUser.chats.unshift({
           username: to,
-          read: false,
+          read: true,
         });
         await currentUser.save();
         await otherUser.save();
         return message;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    async changeRead(_, { username, newStatus }, { user }) {
+      if (!user) throw new AuthenticationError("Unauthenticated");
+      try {
+        const currentUser = await User.findOne({ username: user.username });
+        currentUser.chats = currentUser.chats.map((chat) => {
+          if (chat.username === username) {
+            chat.read = newStatus;
+          }
+          return chat;
+        });
+        await currentUser.save();
+        return currentUser;
       } catch (error) {
         throw new Error(error);
       }
